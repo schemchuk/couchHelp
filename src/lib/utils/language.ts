@@ -1,7 +1,9 @@
 // Визначення мови повідомлення
 // Правило: повідомлення < 50 знаків — НЕ вгадуємо, повертаємо null
 
-export type SupportedLanguage = 'de' | 'ru' | 'ua'
+import type { SupportedLanguage } from '@/types'
+
+export type { SupportedLanguage }
 
 export function detectLanguage(text: string): SupportedLanguage | null {
   if (text.trim().length < 50) {
