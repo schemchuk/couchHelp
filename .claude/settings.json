@@ -1,0 +1,12 @@
+{
+  "env": {
+    "MAX_THINKING_TOKENS": "10000",
+    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1"
+  },
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  }
+}
