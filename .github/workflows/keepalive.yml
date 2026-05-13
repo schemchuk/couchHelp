@@ -1,0 +1,33 @@
+name: Keep Supabase Alive
+
+# Запускаємо кожні 4 години (6 разів на добу).
+# GitHub Actions cron не гарантує точний час виконання (±15–30 хв),
+# що додає природної нерегулярності.
+on:
+  schedule:
+    - cron: '0 */4 * * *'
+  workflow_dispatch: # можна запустити вручну для тестування
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Randomised keep-alive ping
+        shell: bash
+        run: |
+          # Ймовірність виклику ~35 % (2 з 6) → в середньому 1–2 рази на добу,
+          # але кожного дня різна кількість і різні інтервали між викликами.
+          ROLL=$((RANDOM % 100))
+          THRESHOLD=35
+
+          echo "Random roll: ${ROLL} (threshold: ${THRESHOLD})"
+
+          if [ "$ROLL" -lt "$THRESHOLD" ]; then
+            echo "→ Ping triggered"
+            curl -sfS -X POST \
+              -H "Authorization: Bearer ${{ secrets.KEEPALIVE_SECRET }}" \
+              -H "Content-Type: application/json" \
+              "${{ secrets.PRODUCTION_URL }}/api/keepalive"
+          else
+            echo "→ Skipped this run"
+          fi
