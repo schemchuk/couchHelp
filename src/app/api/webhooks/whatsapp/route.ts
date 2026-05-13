@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { after } from 'next/server'
 import { verifyWebhookSignature } from '@/lib/whatsapp/signature'
 import {
   extractMessages,
@@ -9,6 +10,7 @@ import {
 } from '@/lib/whatsapp/parser'
 import type { WhatsAppWebhookPayload } from '@/lib/whatsapp/types'
 import { createClient as createServiceClient } from '@supabase/supabase-js'
+import type { Database, Json } from '@/types/database'
 import { processWithAI } from '@/lib/ai/processor'
 
 // GET — верифікація webhook від Meta
@@ -35,13 +37,18 @@ export async function POST(request: NextRequest) {
 
   // 1. Верифікація підпису
   const appSecret = process.env.WHATSAPP_APP_SECRET
-  if (appSecret && !verifyWebhookSignature(rawBody, signature, appSecret)) {
+  if (!appSecret) {
+    console.error('WHATSAPP_APP_SECRET not configured')
+    return NextResponse.json({ error: 'Server misconfigured' }, { status: 500 })
+  }
+
+  if (!verifyWebhookSignature(rawBody, signature, appSecret)) {
     return new NextResponse('Invalid signature', { status: 403 })
   }
 
   // 2. Швидка відповідь 200 OK — не блокуємо Meta
-  // Обробка запускається у фоні через Promise
-  Promise.resolve().then(async () => {
+  // Обробка реєструється в lifecycle через after() — Vercel чекає завершення
+  after(async () => {
     try {
       await handleWebhook(rawBody)
     } catch (error) {
@@ -65,7 +72,7 @@ async function handleWebhook(rawBody: string): Promise<void> {
     return
   }
 
-  const supabase = createServiceClient(
+  const supabase = createServiceClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   )
@@ -108,19 +115,7 @@ async function handleWebhook(rawBody: string): Promise<void> {
   const senderPhone = extractSenderPhone(message)
   const senderName = extractSenderName(payload, senderPhone)
 
-  // 6. Дедуплікація по wamid
-  const { data: existingMessage } = await supabase
-    .from('messages')
-    .select('id')
-    .eq('wamid', wamid)
-    .single()
-
-  if (existingMessage) {
-    console.log('[WhatsApp Webhook] Duplicate wamid, skipping:', wamid)
-    return
-  }
-
-  // 7. Знайти або створити client
+  // 6. Знайти або створити client
   const { data: existingClient } = await supabase
     .from('clients')
     .select('id, language')
@@ -158,24 +153,26 @@ async function handleWebhook(rawBody: string): Promise<void> {
     clientId = newClient.id
   }
 
-  // 8. Зберегти повідомлення
-  const { data: savedMessage, error: msgError } = await supabase
+  // 7. Зберегти повідомлення (з дедуплікацією через ON CONFLICT DO NOTHING)
+  const { data: savedMessages, error: msgError } = await supabase
     .from('messages')
-    .insert({
-      tenant_id: tenantId,
-      client_id: clientId,
-      wamid: wamid,
-      direction: 'inbound',
-      status: 'received',
-      message_type: message.type ?? 'unknown',
-      body: message.text?.body ?? null,
-      media_id: message.image?.id ?? message.document?.id ?? message.audio?.id ?? message.video?.id ?? message.sticker?.id ?? null,
-      media_filename: message.document?.filename ?? null,
-    })
+    .upsert(
+      {
+        tenant_id: tenantId,
+        client_id: clientId,
+        wamid: wamid,
+        direction: 'inbound',
+        status: 'received',
+        message_type: message.type ?? 'unknown',
+        body: message.text?.body ?? null,
+        media_id: message.image?.id ?? message.document?.id ?? message.audio?.id ?? message.video?.id ?? message.sticker?.id ?? null,
+        media_filename: message.document?.filename ?? null,
+      },
+      { onConflict: 'wamid', ignoreDuplicates: true }
+    )
     .select('id')
-    .single()
 
-  if (msgError || !savedMessage) {
+  if (msgError) {
     console.error('[WhatsApp Webhook] Failed to save message:', msgError)
     await logAudit(tenantId, 'webhook_received', {
       error: 'message_save_failed',
@@ -185,7 +182,14 @@ async function handleWebhook(rawBody: string): Promise<void> {
     return
   }
 
-  // 9. Записати в audit_log
+  if (!savedMessages || savedMessages.length === 0) {
+    console.log('[WhatsApp Webhook] Duplicate wamid, skipping:', wamid)
+    return
+  }
+
+  const savedMessage = savedMessages[0]
+
+  // 8. Записати в audit_log
   await logAudit(tenantId, 'webhook_received', {
     wamid,
     client_id: clientId,
@@ -194,7 +198,7 @@ async function handleWebhook(rawBody: string): Promise<void> {
     message_type: message.type,
   })
 
-  // 10. Викликати AI-обробку
+  // 9. Викликати AI-обробку
   // Витягаємо історію останніх 3 повідомлень для контексту
   const { data: historyRows } = await supabase
     .from('messages')
@@ -226,9 +230,9 @@ async function handleWebhook(rawBody: string): Promise<void> {
 async function logAudit(
   tenantId: string | null,
   action: string,
-  metadata: Record<string, unknown>
+  metadata: Record<string, Json>
 ): Promise<void> {
-  const supabase = createServiceClient(
+  const supabase = createServiceClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   )

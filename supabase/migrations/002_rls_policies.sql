@@ -78,7 +78,8 @@ CREATE POLICY "knowledge_items_tenant_isolation" ON knowledge_items
   );
 
 -- ============================================================
--- audit_log — КРИТИЧНО: тільки INSERT
+-- audit_log — КРИТИЧНО: тільки INSERT + SELECT
+-- append-only: немає UPDATE/DELETE
 -- ============================================================
 CREATE POLICY "audit_log_insert_only" ON audit_log
   FOR INSERT
@@ -87,4 +88,9 @@ CREATE POLICY "audit_log_insert_only" ON audit_log
     WHERE clerk_org_id = auth.jwt() ->> 'org_id'
   ));
 
--- SELECT дозволений тільки service_role (не через клієнт)
+CREATE POLICY "Tenant can read own audit logs" ON audit_log
+  FOR SELECT
+  USING (tenant_id IN (
+    SELECT id FROM tenants
+    WHERE clerk_org_id = auth.jwt() ->> 'org_id'
+  ));

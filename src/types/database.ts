@@ -1,5 +1,5 @@
-// Типи БД — відповідають схемі в PROJECT_CONTEXT.md
-// Повна версія генерується через: npx supabase gen types typescript
+// Типи БД — 1:1 відповідають схемі в supabase/migrations/001_init_schema.sql
+// Джерело правди — SQL міграція
 
 export type Json =
   | string
@@ -9,97 +9,168 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export type ClientStatus = 'new' | 'classified' | 'in_work' | 'pause' | 'closed'
-export type MessageDirection = 'inbound' | 'outbound'
-export type MessageChannel = 'whatsapp' | 'email' | 'phone' | 'zoom'
-export type SupportedLanguage = 'de' | 'ru' | 'ua'
-export type TenantTier = 'starter' | 'pro' | 'scale'
-export type JcOrAa = 'jc' | 'aa' | 'unknown'
-export type AuditAction =
-  | 'message_sent'
-  | 'draft_created'
-  | 'approval_given'
-  | 'draft_edited'
-  | 'draft_rejected'
-  | 'status_changed'
-  | 'template_used'
-  | 'promise_created'
-  | 'promise_missed'
-
 export interface Database {
   public: {
     Tables: {
       tenants: {
         Row: {
           id: string
-          email: string
-          name: string | null
-          tier: TenantTier
-          language_default: SupportedLanguage
+          clerk_org_id: string
+          name: string
+          phone_number_id: string | null
+          waba_id: string | null
+          access_token_enc: string | null
+          whatsapp_connected: boolean
+          phone_number_source: string
+          tier: string
           created_at: string
+          updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['tenants']['Row'], 'id' | 'created_at'>
-        Update: Partial<Database['public']['Tables']['tenants']['Insert']>
+        Insert: {
+          id?: string
+          clerk_org_id: string
+          name: string
+          phone_number_id?: string | null
+          waba_id?: string | null
+          access_token_enc?: string | null
+          whatsapp_connected?: boolean
+          phone_number_source?: string
+          tier?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          clerk_org_id?: string
+          name?: string
+          phone_number_id?: string | null
+          waba_id?: string | null
+          access_token_enc?: string | null
+          whatsapp_connected?: boolean
+          phone_number_source?: string
+          tier?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       clients: {
         Row: {
           id: string
           tenant_id: string
-          name: string
-          phone: string | null
-          email: string | null
-          language_communication: SupportedLanguage | null
-          language_documents: SupportedLanguage | null
-          language_business: SupportedLanguage | null
-          status: ClientStatus
-          jc_or_aa: JcOrAa | null
-          has_avgs: boolean
-          business_idea: string | null
-          federal_state: string | null
-          has_gewerbe: boolean | null
-          next_step: string | null
-          next_step_due: string | null
+          phone: string
+          name: string | null
+          language: string | null
           notes: string | null
-          linkedin_url: string | null
-          website_url: string | null
           created_at: string
           updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['clients']['Row'], 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Database['public']['Tables']['clients']['Insert']>
+        Insert: {
+          id?: string
+          tenant_id: string
+          phone: string
+          name?: string | null
+          language?: string | null
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          tenant_id?: string
+          phone?: string
+          name?: string | null
+          language?: string | null
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       messages: {
         Row: {
           id: string
           tenant_id: string
           client_id: string
-          direction: MessageDirection
-          channel: MessageChannel
-          content: string
-          language: SupportedLanguage | null
-          ai_draft: boolean
-          ai_draft_content: string | null
-          template_version: string | null
-          sent_at: string | null
+          wamid: string | null
+          direction: string
+          status: string
+          message_type: string
+          body: string | null
+          media_id: string | null
+          media_url: string | null
+          media_filename: string | null
+          ai_draft: string | null
+          ai_classification: string | null
           created_at: string
+          updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['messages']['Row'], 'id' | 'created_at'>
-        Update: Partial<Database['public']['Tables']['messages']['Insert']>
+        Insert: {
+          id?: string
+          tenant_id: string
+          client_id: string
+          wamid?: string | null
+          direction: string
+          status?: string
+          message_type: string
+          body?: string | null
+          media_id?: string | null
+          media_url?: string | null
+          media_filename?: string | null
+          ai_draft?: string | null
+          ai_classification?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          tenant_id?: string
+          client_id?: string
+          wamid?: string | null
+          direction?: string
+          status?: string
+          message_type?: string
+          body?: string | null
+          media_id?: string | null
+          media_url?: string | null
+          media_filename?: string | null
+          ai_draft?: string | null
+          ai_classification?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       audit_log: {
         Row: {
           id: string
-          tenant_id: string
-          actor: 'human' | 'ai'
-          action: AuditAction
-          entity_type: string | null
+          tenant_id: string | null
+          entity_type: string
           entity_id: string | null
-          template_version: string | null
+          action: string
+          actor: string
           metadata: Json | null
           created_at: string
         }
-        Insert: Omit<Database['public']['Tables']['audit_log']['Row'], 'id' | 'created_at'>
-        // Update і Delete навмисно відсутні — audit_log є append-only
+        Insert: {
+          id?: string
+          tenant_id?: string | null
+          entity_type: string
+          entity_id?: string | null
+          action: string
+          actor: string
+          metadata?: Json | null
+          created_at?: string
+        }
+        // Update навмисно не використовується — audit_log є append-only
+        // Але присутній в типі для сумісності з GenericTable
+        Update: {
+          tenant_id?: string | null
+          entity_type?: string
+          entity_id?: string | null
+          action?: string
+          actor?: string
+          metadata?: Json | null
+          created_at?: string
+        }
+        Relationships: []
       }
       promises: {
         Row: {
@@ -107,47 +178,106 @@ export interface Database {
           tenant_id: string
           client_id: string
           message_id: string | null
-          description: string
-          due_date: string
-          status: 'pending' | 'done' | 'missed'
-          alerted_at: string | null
+          text: string
+          due_date: string | null
+          status: string
           created_at: string
+          updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['promises']['Row'], 'id' | 'created_at'>
-        Update: Partial<Database['public']['Tables']['promises']['Insert']>
+        Insert: {
+          id?: string
+          tenant_id: string
+          client_id: string
+          message_id?: string | null
+          text: string
+          due_date?: string | null
+          status?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          tenant_id?: string
+          client_id?: string
+          message_id?: string | null
+          text?: string
+          due_date?: string | null
+          status?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       templates: {
         Row: {
           id: string
-          tenant_id: string
-          name: string
-          language: SupportedLanguage
-          scenario: 'first_contact' | 'follow_up' | 'qualification' | 'rejection' | 'pause'
-          content: string
-          version: number
-          is_active: boolean
+          tenant_id: string | null
+          language: string
+          scenario: string
+          subject: string | null
+          body: string
           created_at: string
+          updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['templates']['Row'], 'id' | 'created_at'>
-        Update: Partial<Database['public']['Tables']['templates']['Insert']>
+        Insert: {
+          id?: string
+          tenant_id?: string | null
+          language: string
+          scenario: string
+          subject?: string | null
+          body: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          tenant_id?: string | null
+          language?: string
+          scenario?: string
+          subject?: string | null
+          body?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       knowledge_items: {
         Row: {
           id: string
-          tenant_id: string
-          category: 'stable' | 'volatile'
-          type: 'template' | 'sop' | 'legal' | 'program' | 'case'
+          tenant_id: string | null
+          type: string
           title: string
           content: string
-          source: string | null
-          valid_until: string | null
-          last_verified_at: string | null
+          language: string | null
+          tags: string[] | null
           created_at: string
           updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['knowledge_items']['Row'], 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Database['public']['Tables']['knowledge_items']['Insert']>
+        Insert: {
+          id?: string
+          tenant_id?: string | null
+          type: string
+          title: string
+          content: string
+          language?: string | null
+          tags?: string[] | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          tenant_id?: string | null
+          type?: string
+          title?: string
+          content?: string
+          language?: string | null
+          tags?: string[] | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
     }
+    Views: {}
+    Functions: {}
+    Enums: {}
+    CompositeTypes: {}
   }
 }

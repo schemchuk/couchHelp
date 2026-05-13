@@ -1,4 +1,5 @@
 import { createClient as createServiceClient } from '@supabase/supabase-js'
+import type { Database, Json } from '@/types/database'
 import { detectLanguage } from './language'
 import { classifyMessage } from './classifier'
 import { generateDraft } from './draft'
@@ -38,7 +39,7 @@ export async function processWithAI(
     clientHistory,
   } = params
 
-  const supabase = createServiceClient(
+  const supabase = createServiceClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   )
@@ -120,9 +121,9 @@ export async function processWithAI(
 async function logAudit(
   tenantId: string,
   action: string,
-  metadata: Record<string, unknown>
+  metadata: Record<string, Json>
 ): Promise<void> {
-  const supabase = createServiceClient(
+  const supabase = createServiceClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   )

@@ -20,7 +20,7 @@ export function usePromises() {
       const { data, error } = await supabase
         .from('promises')
         .select('*')
-        .eq('status', 'pending')
+        .eq('status', 'open')
         .order('due_date', { ascending: true })
 
       if (error) throw error
