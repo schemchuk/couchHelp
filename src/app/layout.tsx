@@ -17,7 +17,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      __internal_clerkJSUrl="https://unpkg.com/@clerk/clerk-js@6/dist/clerk.browser.js"
+      __internal_clerkUIUrl="https://unpkg.com/@clerk/ui@1/dist/ui.browser.js"
+    >
       <html lang="de">
         <body className={inter.className}>
           {children}
