@@ -1,0 +1,918 @@
+- generic [ref=e1]:
+  - paragraph [ref=e3]:
+    - text: By clicking "Accept" or continuing to use our site, you agree to our Website's
+    - link "Privacy Policy" [ref=e4] [cursor=pointer]:
+      - /url: https://dnschecker.org/privacy.php
+    - button "Accept" [ref=e5] [cursor=pointer]
+  - generic [ref=e6]:
+    - link "DNS records and worldwide DNS propagation checker" [ref=e11] [cursor=pointer]:
+      - /url: https://dnschecker.org
+      - img "DNS records and worldwide DNS propagation checker" [ref=e12]
+    - navigation [ref=e17]:
+      - list [ref=e19]:
+        - listitem [ref=e20]:
+          - link "Home" [ref=e21] [cursor=pointer]:
+            - /url: https://dnschecker.org
+        - listitem [ref=e22]:
+          - link "All Tools" [ref=e23] [cursor=pointer]:
+            - /url: https://dnschecker.org/all-tools.php
+        - listitem [ref=e24]:
+          - link "DNS Lookup" [ref=e25] [cursor=pointer]:
+            - /url: https://dnschecker.org/all-dns-records-of-domain.php
+        - listitem [ref=e26]:
+          - link "Public DNS List" [ref=e27] [cursor=pointer]:
+            - /url: https://dnschecker.org/public-dns
+        - listitem [ref=e28]:
+          - link [ref=e29] [cursor=pointer]:
+            - /url: https://dnschecker.org/mobile-app
+        - listitem [ref=e31]:
+          - link [ref=e32] [cursor=pointer]:
+            - /url: https://chrome.google.com/webstore/detail/dns-checker/gegfpbhjnhegdnjdkghhnneaocdbbhjp
+        - listitem [ref=e34]:
+          - button [ref=e35] [cursor=pointer]
+        - listitem [ref=e37]:
+          - link "80.147.31.66" [ref=e38] [cursor=pointer]:
+            - /url: https://dnschecker.org/ip-location.php?ip=80.147.31.66
+            - generic [ref=e40]: 80.147.31.66
+  - generic [ref=e44]:
+    - generic [ref=e45]:
+      - generic [ref=e48]:
+        - list [ref=e49]:
+          - listitem [ref=e50]:
+            - generic [ref=e51]:
+              - heading "DNS Check" [level=1] [ref=e52]
+              - generic [ref=e53]:
+                - textbox "example.com" [active] [ref=e54]: clkmail.couchhelp.click
+                - combobox [ref=e55]:
+                  - option "A"
+                  - option "AAAA"
+                  - option "CNAME" [selected]
+                  - option "MX"
+                  - option "NS"
+                  - option "PTR"
+                  - option "SRV"
+                  - option "SOA"
+                  - option "TXT"
+                  - option "CAA"
+                  - option "DS"
+                  - option "DNSKEY"
+                - button "Search" [ref=e56] [cursor=pointer]: Search
+              - generic [ref=e58]:
+                - generic [ref=e59]:
+                  - button "settings" [ref=e60] [cursor=pointer]
+                  - button "Add a custom DNS server" [ref=e62] [cursor=pointer]:
+                    - generic "Add a custom DNS server" [ref=e63]
+                  - generic "Ask DNS Server NOT to perform DNSSEC validation before replying" [ref=e68]: CD Flag
+                - generic [ref=e69]:
+                  - generic [ref=e72]: "Refresh:"
+                  - spinbutton [ref=e73]: "20"
+                  - text: sec.
+        - table [ref=e74]:
+          - rowgroup [ref=e75]:
+            - row "usSan Francisco CA, United States OpenDNS Load" [ref=e76]:
+              - cell "usSan Francisco CA, United States OpenDNS" [ref=e77]:
+                - img "us" [ref=e78]
+                - text: San Francisco CA, United States
+                - generic [ref=e79]: OpenDNS
+              - cell "Load" [ref=e81]:
+                - button "Load" [ref=e82] [cursor=pointer]
+              - cell [ref=e83]
+            - row "usMountain View CA, United States Google Load" [ref=e86]:
+              - cell "usMountain View CA, United States Google" [ref=e87]:
+                - img "us" [ref=e88]
+                - text: Mountain View CA, United States
+                - generic [ref=e89]: Google
+              - cell "Load" [ref=e91]:
+                - button "Load" [ref=e92] [cursor=pointer]
+              - cell [ref=e93]
+            - row "usBerkeley, US Quad9 Load" [ref=e96]:
+              - cell "usBerkeley, US Quad9" [ref=e97]:
+                - img "us" [ref=e98]
+                - text: Berkeley, US
+                - generic [ref=e99]: Quad9
+              - cell "Load" [ref=e101]:
+                - button "Load" [ref=e102] [cursor=pointer]
+              - cell [ref=e103]
+            - row "usKansas City, United States WholeSale Internet, Inc. Load" [ref=e106]:
+              - cell "usKansas City, United States WholeSale Internet, Inc." [ref=e107]:
+                - img "us" [ref=e108]
+                - text: Kansas City, United States
+                - generic [ref=e109]: WholeSale Internet, Inc.
+              - cell "Load" [ref=e111]:
+                - button "Load" [ref=e112] [cursor=pointer]
+              - cell [ref=e113]
+            - row "usUnited States CenturyLink Load" [ref=e116]:
+              - cell "usUnited States CenturyLink" [ref=e117]:
+                - img "us" [ref=e118]
+                - text: United States
+                - generic [ref=e119]: CenturyLink
+              - cell "Load" [ref=e121]:
+                - button "Load" [ref=e122] [cursor=pointer]
+              - cell [ref=e123]
+            - row "usSan Francisco, US Quad9 Load" [ref=e126]:
+              - cell "usSan Francisco, US Quad9" [ref=e127]:
+                - img "us" [ref=e128]
+                - text: San Francisco, US
+                - generic [ref=e129]: Quad9
+              - cell "Load" [ref=e131]:
+                - button "Load" [ref=e132] [cursor=pointer]
+              - cell [ref=e133]
+            - row "usNew York, United States Oracle Corporation Load" [ref=e136]:
+              - cell "usNew York, United States Oracle Corporation" [ref=e137]:
+                - img "us" [ref=e138]
+                - text: New York, United States
+                - generic [ref=e139]: Oracle Corporation
+              - cell "Load" [ref=e141]:
+                - button "Load" [ref=e142] [cursor=pointer]
+              - cell [ref=e143]
+            - row "caBurnaby, Canada Fortinet Inc Load" [ref=e146]:
+              - cell "caBurnaby, Canada Fortinet Inc" [ref=e147]:
+                - img "ca" [ref=e148]
+                - text: Burnaby, Canada
+                - generic [ref=e149]: Fortinet Inc
+              - cell "Load" [ref=e151]:
+                - button "Load" [ref=e152] [cursor=pointer]
+              - cell [ref=e153]
+            - row "ruSt Petersburg, Russia YANDEX LLC Load" [ref=e156]:
+              - cell "ruSt Petersburg, Russia YANDEX LLC" [ref=e157]:
+                - img "ru" [ref=e158]
+                - text: St Petersburg, Russia
+                - generic [ref=e159]: YANDEX LLC
+              - cell "Load" [ref=e161]:
+                - button "Load" [ref=e162] [cursor=pointer]
+              - cell [ref=e163]
+            - row "zaCullinan, South Africa Liquid Telecommunications Ltd Load" [ref=e166]:
+              - cell "zaCullinan, South Africa Liquid Telecommunications Ltd" [ref=e167]:
+                - img "za" [ref=e168]
+                - text: Cullinan, South Africa
+                - generic [ref=e169]: Liquid Telecommunications Ltd
+              - cell "Load" [ref=e171]:
+                - button "Load" [ref=e172] [cursor=pointer]
+              - cell [ref=e173]
+            - row "nlAmsterdam, Netherlands OpenTLD BV Load" [ref=e176]:
+              - cell "nlAmsterdam, Netherlands OpenTLD BV" [ref=e177]:
+                - img "nl" [ref=e178]
+                - text: Amsterdam, Netherlands
+                - generic [ref=e179]: OpenTLD BV
+              - cell "Load" [ref=e181]:
+                - button "Load" [ref=e182] [cursor=pointer]
+              - cell [ref=e183]
+            - row "frLille, France Completel SAS Load" [ref=e186]:
+              - cell "frLille, France Completel SAS" [ref=e187]:
+                - img "fr" [ref=e188]
+                - text: Lille, France
+                - generic [ref=e189]: Completel SAS
+              - cell "Load" [ref=e191]:
+                - button "Load" [ref=e192] [cursor=pointer]
+              - cell [ref=e193]
+            - row "esPaterna de Rivera, Spain ServiHosting Networks S.L. Load" [ref=e196]:
+              - cell "esPaterna de Rivera, Spain ServiHosting Networks S.L." [ref=e197]:
+                - img "es" [ref=e198]
+                - text: Paterna de Rivera, Spain
+                - generic [ref=e199]: ServiHosting Networks S.L.
+              - cell "Load" [ref=e201]:
+                - button "Load" [ref=e202] [cursor=pointer]
+              - cell [ref=e203]
+            - row "atInnsbruck, Austria nemox.net Load" [ref=e206]:
+              - cell "atInnsbruck, Austria nemox.net" [ref=e207]:
+                - img "at" [ref=e208]
+                - text: Innsbruck, Austria
+                - generic [ref=e209]: nemox.net
+              - cell "Load" [ref=e211]:
+                - button "Load" [ref=e212] [cursor=pointer]
+              - cell [ref=e213]
+            - row "deLeipzig, Germany Universitaet Leipzig Load" [ref=e216]:
+              - cell "deLeipzig, Germany Universitaet Leipzig" [ref=e217]:
+                - img "de" [ref=e218]
+                - text: Leipzig, Germany
+                - generic [ref=e219]: Universitaet Leipzig
+              - cell "Load" [ref=e221]:
+                - button "Load" [ref=e222] [cursor=pointer]
+              - cell [ref=e223]
+            - row "mxMexico City, Mexico Universidad LatinoAmericana S.C. Load" [ref=e226]:
+              - cell "mxMexico City, Mexico Universidad LatinoAmericana S.C." [ref=e227]:
+                - img "mx" [ref=e228]
+                - text: Mexico City, Mexico
+                - generic [ref=e229]: Universidad LatinoAmericana S.C.
+              - cell "Load" [ref=e231]:
+                - button "Load" [ref=e232] [cursor=pointer]
+              - cell [ref=e233]
+            - row "brSao Paulo, Brazil Universo Online S.A Load" [ref=e236]:
+              - cell "brSao Paulo, Brazil Universo Online S.A" [ref=e237]:
+                - img "br" [ref=e238]
+                - text: Sao Paulo, Brazil
+                - generic [ref=e239]: Universo Online S.A
+              - cell "Load" [ref=e241]:
+                - button "Load" [ref=e242] [cursor=pointer]
+              - cell [ref=e243]
+            - row "auResearch, Australia Cloudflare Inc Load" [ref=e246]:
+              - cell "auResearch, Australia Cloudflare Inc" [ref=e247]:
+                - img "au" [ref=e248]
+                - text: Research, Australia
+                - generic [ref=e249]: Cloudflare Inc
+              - cell "Load" [ref=e251]:
+                - button "Load" [ref=e252] [cursor=pointer]
+              - cell [ref=e253]
+            - row "auMelbourne, Australia Pacific Internet Load" [ref=e256]:
+              - cell "auMelbourne, Australia Pacific Internet" [ref=e257]:
+                - img "au" [ref=e258]
+                - text: Melbourne, Australia
+                - generic [ref=e259]: Pacific Internet
+              - cell "Load" [ref=e261]:
+                - button "Load" [ref=e262] [cursor=pointer]
+              - cell [ref=e263]
+            - row "sgSingapore DigitalOcean LLC Load" [ref=e266]:
+              - cell "sgSingapore DigitalOcean LLC" [ref=e267]:
+                - img "sg" [ref=e268]
+                - text: Singapore
+                - generic [ref=e269]: DigitalOcean LLC
+              - cell "Load" [ref=e271]:
+                - button "Load" [ref=e272] [cursor=pointer]
+              - cell [ref=e273]
+            - row "krSeoul, South Korea SK Telecom Load" [ref=e276]:
+              - cell "krSeoul, South Korea SK Telecom" [ref=e277]:
+                - img "kr" [ref=e278]
+                - text: Seoul, South Korea
+                - generic [ref=e279]: SK Telecom
+              - cell "Load" [ref=e281]:
+                - button "Load" [ref=e282] [cursor=pointer]
+              - cell [ref=e283]
+            - row "cnHangzhou, China Aliyun Computing Co. Ltd Load" [ref=e286]:
+              - cell "cnHangzhou, China Aliyun Computing Co. Ltd" [ref=e287]:
+                - img "cn" [ref=e288]
+                - text: Hangzhou, China
+                - generic [ref=e289]: Aliyun Computing Co. Ltd
+              - cell "Load" [ref=e291]:
+                - button "Load" [ref=e292] [cursor=pointer]
+              - cell [ref=e293]
+            - row "trAntalya, Turkey Teknet Yazlim Load" [ref=e296]:
+              - cell "trAntalya, Turkey Teknet Yazlim" [ref=e297]:
+                - img "tr" [ref=e298]
+                - text: Antalya, Turkey
+                - generic [ref=e299]: Teknet Yazlim
+              - cell "Load" [ref=e301]:
+                - button "Load" [ref=e302] [cursor=pointer]
+              - cell [ref=e303]
+            - row "inCoimbatore, India Skylink Fibernet Private Limited Load" [ref=e306]:
+              - cell "inCoimbatore, India Skylink Fibernet Private Limited" [ref=e307]:
+                - img "in" [ref=e308]
+                - text: Coimbatore, India
+                - generic [ref=e309]: Skylink Fibernet Private Limited
+              - cell "Load" [ref=e311]:
+                - button "Load" [ref=e312] [cursor=pointer]
+              - cell [ref=e313]
+            - row "pkIslamabad, Pakistan CMPak Limited Load" [ref=e316]:
+              - cell "pkIslamabad, Pakistan CMPak Limited" [ref=e317]:
+                - img "pk" [ref=e318]
+                - text: Islamabad, Pakistan
+                - generic [ref=e319]: CMPak Limited
+              - cell "Load" [ref=e321]:
+                - button "Load" [ref=e322] [cursor=pointer]
+              - cell [ref=e323]
+            - row "ieIreland Daniel Cid Load" [ref=e326]:
+              - cell "ieIreland Daniel Cid" [ref=e327]:
+                - img "ie" [ref=e328]
+                - text: Ireland
+                - generic [ref=e329]: Daniel Cid
+              - cell "Load" [ref=e331]:
+                - button "Load" [ref=e332] [cursor=pointer]
+              - cell [ref=e333]
+            - row "bdKaharole, Bangladesh Md Masud Rana Roni Load" [ref=e336]:
+              - cell "bdKaharole, Bangladesh Md Masud Rana Roni" [ref=e337]:
+                - img "bd" [ref=e338]
+                - text: Kaharole, Bangladesh
+                - generic [ref=e339]: Md Masud Rana Roni
+              - cell "Load" [ref=e341]:
+                - button "Load" [ref=e342] [cursor=pointer]
+              - cell [ref=e343]
+        - table [ref=e346]:
+          - rowgroup [ref=e347]:
+            - row "Add A Custom DNS Server" [ref=e348]:
+              - cell "Add A Custom DNS Server" [ref=e349]:
+                - button "Add A Custom DNS Server" [ref=e350] [cursor=pointer]: Add A Custom DNS Server
+            - 'row "Note: Complete DNS Resolution may take up to 48 hours." [ref=e352]':
+              - 'cell "Note: Complete DNS Resolution may take up to 48 hours." [ref=e353]':
+                - generic [ref=e354]:
+                  - strong [ref=e355]: "Note:"
+                  - text: Complete DNS Resolution may take up to 48 hours.
+      - generic [ref=e356]:
+        - generic [ref=e359]:
+          - heading "CHECK DNS PROPAGATION" [level=1] [ref=e360]
+          - paragraph [ref=e362]: Whether you have recently changed your DNS records, switched web host, or started a new website - checking whether the DNS records are propagated globally is essential. DNS Checker provides a free DNS propagation check service to check Domain Name System records against a selected list of DNS servers in multiple regions worldwide. Perform a quick DNS propagation lookup for any hostname or domain, and check DNS data collected from all available DNS Servers to confirm that the DNS records are fully propagated.
+        - generic [ref=e365]:
+          - generic [ref=e368]:
+            - button "menu" [ref=e370] [cursor=pointer]:
+              - paragraph [ref=e371]
+              - paragraph [ref=e372]
+              - paragraph [ref=e373]
+            - img [ref=e374]:
+              - generic [ref=e376]: DNS Propagation Map by DNSChecker.org
+              - generic [ref=e583]:
+                - generic [ref=e586] [cursor=pointer]: Server Location
+                - generic [ref=e589] [cursor=pointer]: Resolved
+                - generic [ref=e592] [cursor=pointer]: Not Resolved
+          - generic [ref=e594]:
+            - generic [ref=e595]:
+              - heading "DNS Lists" [level=6] [ref=e596]
+              - textbox [ref=e598]
+            - generic [ref=e602]:
+              - generic [ref=e603]:
+                - heading "IPs" [level=6] [ref=e604]
+                - generic [ref=e605]:
+                  - link "Public IPv4" [ref=e607] [cursor=pointer]:
+                    - /url: https://dnschecker.org
+                    - text: Public IPv4
+                  - link "Public IPv6" [ref=e610] [cursor=pointer]:
+                    - /url: https://dnschecker.org/ip/6/
+                    - text: Public IPv6
+              - generic [ref=e612]:
+                - heading "Continents" [level=6] [ref=e613]
+                - generic [ref=e614]:
+                  - link "africa Africa" [ref=e616] [cursor=pointer]:
+                    - /url: https://dnschecker.org/continent/africa/
+                    - img "africa" [ref=e617]
+                    - text: Africa
+                  - link "asia Asia" [ref=e619] [cursor=pointer]:
+                    - /url: https://dnschecker.org/continent/asia/
+                    - img "asia" [ref=e620]
+                    - text: Asia
+                  - link "europe Europe" [ref=e622] [cursor=pointer]:
+                    - /url: https://dnschecker.org/continent/europe/
+                    - img "europe" [ref=e623]
+                    - text: Europe
+                  - link "north america North America" [ref=e625] [cursor=pointer]:
+                    - /url: https://dnschecker.org/continent/northamerica/
+                    - img "north america" [ref=e626]
+                    - text: North America
+                  - link "australia Australia" [ref=e628] [cursor=pointer]:
+                    - /url: https://dnschecker.org/continent/australia/
+                    - img "australia" [ref=e629]
+                    - text: Australia
+                  - link "south america South America" [ref=e631] [cursor=pointer]:
+                    - /url: https://dnschecker.org/continent/southamerica/
+                    - img "south america" [ref=e632]
+                    - text: South America
+              - generic [ref=e633]:
+                - heading "Countries" [level=6] [ref=e634]
+                - generic [ref=e635]:
+                  - link "us United States" [ref=e637] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/us/
+                    - img "us" [ref=e638]
+                    - text: United States
+                  - link "ca Canada" [ref=e640] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/ca/
+                    - img "ca" [ref=e641]
+                    - text: Canada
+                  - link "de Germany" [ref=e643] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/de/
+                    - img "de" [ref=e644]
+                    - text: Germany
+                  - link "ru Russian Federation" [ref=e646] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/ru/
+                    - img "ru" [ref=e647]
+                    - text: Russian Federation
+                  - link "dk Denmark" [ref=e649] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/dk/
+                    - img "dk" [ref=e650]
+                    - text: Denmark
+                  - link "gb United Kingdom" [ref=e652] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/gb/
+                    - img "gb" [ref=e653]
+                    - text: United Kingdom
+                  - link "nl Netherlands" [ref=e655] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/nl/
+                    - img "nl" [ref=e656]
+                    - text: Netherlands
+                  - link "pk Pakistan" [ref=e658] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/pk/
+                    - img "pk" [ref=e659]
+                    - text: Pakistan
+                  - link "ch Switzerland" [ref=e661] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/ch/
+                    - img "ch" [ref=e662]
+                    - text: Switzerland
+                  - link "tr Turkey" [ref=e664] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/tr/
+                    - img "tr" [ref=e665]
+                    - text: Turkey
+                  - link "es Spain" [ref=e667] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/es/
+                    - img "es" [ref=e668]
+                    - text: Spain
+                  - link "za South Africa" [ref=e670] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/za/
+                    - img "za" [ref=e671]
+                    - text: South Africa
+                  - link "jp Japan" [ref=e673] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/jp/
+                    - img "jp" [ref=e674]
+                    - text: Japan
+                  - link "my Malaysia" [ref=e676] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/my/
+                    - img "my" [ref=e677]
+                    - text: Malaysia
+                  - link "in India" [ref=e679] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/in/
+                    - img "in" [ref=e680]
+                    - text: India
+                  - link "fr France" [ref=e682] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/fr/
+                    - img "fr" [ref=e683]
+                    - text: France
+                  - link "mx Mexico" [ref=e685] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/mx/
+                    - img "mx" [ref=e686]
+                    - text: Mexico
+                  - link "cn China" [ref=e688] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/cn/
+                    - img "cn" [ref=e689]
+                    - text: China
+                  - link "br Brazil" [ref=e691] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/br/
+                    - img "br" [ref=e692]
+                    - text: Brazil
+                  - link "au Australia" [ref=e694] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/au/
+                    - img "au" [ref=e695]
+                    - text: Australia
+                  - link "sg Singapore" [ref=e697] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/sg/
+                    - img "sg" [ref=e698]
+                    - text: Singapore
+                  - link "at Austria" [ref=e700] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/at/
+                    - img "at" [ref=e701]
+                    - text: Austria
+                  - link "ie Ireland" [ref=e703] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/ie/
+                    - img "ie" [ref=e704]
+                    - text: Ireland
+                  - link "kr South Korea" [ref=e706] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/kr/
+                    - img "kr" [ref=e707]
+                    - text: South Korea
+                  - link "nz New Zealand" [ref=e709] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/nz/
+                    - img "nz" [ref=e710]
+                    - text: New Zealand
+                  - link "sa Saudia Arabia" [ref=e712] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/sa/
+                    - img "sa" [ref=e713]
+                    - text: Saudia Arabia
+                  - link "bd Bangladesh" [ref=e715] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/bd/
+                    - img "bd" [ref=e716]
+                    - text: Bangladesh
+                  - link "pt Portugal" [ref=e718] [cursor=pointer]:
+                    - /url: https://dnschecker.org/country/pt/
+                    - img "pt" [ref=e719]
+                    - text: Portugal
+    - generic [ref=e723]:
+      - heading "DNS Propagation Checker - How to Check DNS Propagation Globally?" [level=2] [ref=e724]
+      - paragraph [ref=e725]: Perform a quick DNS propagation lookup for any domain. Our DNS Propagation Test tool features a comprehensive list of 100+ global DNS servers, which makes global DNS checks more effortless than ever. It is designed to collect, parse, and display all the DNS propagation results on the map, going beyond text-based propagation reports.
+      - paragraph [ref=e726]: It visually represents how your DNS changes are propagated across different DNS servers in different regions globally. This enhances your understanding and makes identifying any regional variations or issues easier. Now monitor and manage your DNS records effectively.
+      - paragraph [ref=e727]: "Here’s how you can use our tool for performing a free DNS Propagation Test online:"
+      - heading "Enter The Domain or Hostname" [level=3] [ref=e728]
+      - paragraph [ref=e729]: Get started by providing the website domain name for which you want to carry out a DNS propagation test.
+      - heading "Select DNS Record for Propagation Status Check" [level=3] [ref=e730]
+      - paragraph [ref=e731]: "Select the DNS record whose propagation status you would like to check. Click on the drop-down menu right next to the search bar and choose any of the following records:"
+      - list [ref=e732]:
+        - listitem [ref=e733]:
+          - strong [ref=e734]: A record
+          - text: ": contains the IPv4 address info of the hostname."
+        - listitem [ref=e735]:
+          - strong [ref=e736]: "AAAA record:"
+          - text: contains the IPv6 address info of the hostname.
+        - listitem [ref=e737]:
+          - strong [ref=e738]: CNAME record
+          - text: ": also known as alias record. It points the sub-domain to its domain, like pointing www.dnschecker.org to dnschecker.org. Get comprehensive insights about the domain’s CNAME records with"
+          - link "CNAME record lookup" [ref=e739] [cursor=pointer]:
+            - /url: https://dnschecker.org/cname-lookup.php
+          - text: .
+        - listitem [ref=e740]:
+          - strong [ref=e741]: MX record
+          - text: ": contains the info where the domain's email should be routed to and mail servers priority."
+          - link "Lookup MX record" [ref=e742] [cursor=pointer]:
+            - /url: https://dnschecker.org/mx-lookup.php
+          - text: for more info about the domain’s MX records.
+        - listitem [ref=e743]:
+          - strong [ref=e744]: NS record
+          - text: ": contains information about the authoritative nameservers of a domain."
+          - link "NS Checker" [ref=e745] [cursor=pointer]:
+            - /url: https://dnschecker.org/ns-lookup.php
+          - text: will provide you with all the name servers associated with a domain.
+        - listitem [ref=e746]:
+          - strong [ref=e747]: PTR record
+          - text: ": used in"
+          - link "reverse IP lookup" [ref=e748] [cursor=pointer]:
+            - /url: https://dnschecker.org/reverse-dns.php
+          - text: to map an IP address to a domain name, allowing the identification of the host associated with a particular IP address.
+        - listitem [ref=e749]:
+          - strong [ref=e750]: SRV record
+          - text: ": specifies the location and configuration of a particular service, such as email or voice over IP (VoIP), allowing clients to discover and connect to the appropriate server."
+        - listitem [ref=e751]:
+          - strong [ref=e752]: SOA record
+          - text: ": the start of authority is responsible for holding and specifying information about the DNS zone."
+        - listitem [ref=e753]:
+          - strong [ref=e754]: TXT record
+          - text: ": is commonly used for other DNS records configurations like"
+          - link "SPF" [ref=e755] [cursor=pointer]:
+            - /url: https://dnschecker.org/spf-record-validation.php
+          - text: ","
+          - link "DKIM" [ref=e756] [cursor=pointer]:
+            - /url: https://dnschecker.org/dkim-record-checker.php
+          - text: ", or"
+          - link "DMARC records" [ref=e757] [cursor=pointer]:
+            - /url: https://dnschecker.org/dmarc-record-generator.php
+          - text: .
+        - listitem [ref=e758]:
+          - strong [ref=e759]: "CAA record:"
+          - text: used to assist in SSL validation by highlighting which authorities can issue certificates for a domain.
+        - listitem [ref=e760]:
+          - strong [ref=e761]: "DS record:"
+          - text: acts as a delegation signer, maintaining a chain of trust between the parent zone and child zone. Use the
+          - link "DS record Lookup" [ref=e762] [cursor=pointer]:
+            - /url: https://dnschecker.org/ds-lookup.php
+          - text: tool to dig deeper.
+        - listitem [ref=e763]:
+          - strong [ref=e764]: "DNSKEY record:"
+          - text: contains the public signing keys like Zone Signing Key (ZSK) and Key Signing Key (KSK). Check the
+          - link "DNSKEY record" [ref=e765] [cursor=pointer]:
+            - /url: https://dnschecker.org/dnskey-lookup.php
+          - text: for more info.
+      - heading "Perform Quick DNS Propagation" [level=3] [ref=e766]
+      - paragraph [ref=e767]: Once everything is set, click “Search” to run our DNS propagation check tool. It will take a moment to display the results, highlighting all server locations with their respective propagation statuses.
+      - paragraph [ref=e768]: "Here are a few things to keep in mind while checking DNS propagation status:"
+      - list [ref=e769]:
+        - listitem [ref=e770]: ✔️ indicates that the DNS records have been propagated.
+        - listitem [ref=e771]: ❌ shows that the DNS records haven’t been propagated.
+      - paragraph [ref=e772]: More clearly - the green tick shows that the requested DNS record is available in the DNS server, and the cross shows that it is not. The green tick may also mean that the DNS record matches the updated value that the user has set in the expected value field. In contrast, the cross may denote that the value does not match the expected or updated value (the user expects it to be).
+      - heading "How to Add a Custom DNS Server?" [level=3] [ref=e773]
+      - paragraph [ref=e774]: "If you want to add a DNS Server, do it easily with our tool. Simply click on the “+” button and enter the following information:"
+      - list [ref=e775]:
+        - listitem [ref=e776]: DNS Name
+        - listitem [ref=e777]: DNS IP
+        - listitem [ref=e778]: DNS Provider
+        - listitem [ref=e779]: DNS Map Latitude
+        - listitem [ref=e780]: DNS Map Longitude
+      - paragraph [ref=e781]: The DNS Name and DNS IP address are compulsory to specify, or else it will not work.
+      - paragraph [ref=e782]: Our tool will also allow you to add the custom DNS server to the public DNS list as required.
+      - heading "How to Add Expected Value of IP Address?" [level=3] [ref=e783]
+      - paragraph [ref=e784]: If your IP Address has been changed now, then leverage the smart controls to specify the expected value of the new IP address by highlighting its “regular expressions,” “containing numbers,” or “exact match number.”
+      - heading "Here's What Else You Can Do…" [level=3] [ref=e785]
+      - paragraph [ref=e786]: "If required, you can go to the “DNS Lists” section to leverage our tool’s smart search capabilities. It will enable you to check the DNS propagation status of your website with respect to a specific:"
+      - list [ref=e787]:
+        - listitem [ref=e788]: IP Address
+        - listitem [ref=e789]: Continent
+        - listitem [ref=e790]: Country
+      - paragraph [ref=e791]: Simply click on the respective IP address type, continent name, or country name (server location). Our DNS status checker will reload, allowing you to enter the hostname or IP and validate its propagation status accordingly.
+      - paragraph [ref=e792]: Let’s say you would like to check the DNS propagation status of a website in Asia (continent). Click on it and then proceed as guided earlier. It will show you whether the given hostname DNS has been propagated in the Asia continent or not. The same goes for IPv4, IPv6, and all countries worldwide.
+      - heading "Frequently Asked Questions" [level=2] [ref=e793]
+      - paragraph [ref=e794]: Here’s the insider scope you need to know all about DNS!
+      - heading "What is Domain Name System?" [level=3] [ref=e795]
+      - paragraph [ref=e796]: Domain Name System (DNS) is a hierarchical decentralized system that maps domain names to IP addresses. It is the internet's equivalent of a phone book, mapping human-readable domain names to IP addresses.
+      - heading "What is DNS resolution?" [level=3] [ref=e797]
+      - paragraph [ref=e798]:
+        - text: DNS resolution translates the domain name into its server IP address. You need a
+        - link "site's IP address" [ref=e799] [cursor=pointer]:
+          - /url: https://dnschecker.org/domain-ip-lookup.php
+        - text: to know where it’s on the Internet.
+      - paragraph [ref=e800]: The four DNS Servers work together (in a chain) to convert a domain name to its IP address, enabling the requested web resource to load on the user screen.
+      - paragraph [ref=e801]: "Here is how the DNS resolution process works:"
+      - list [ref=e802]:
+        - listitem [ref=e803]:
+          - strong [ref=e804]: "Recursive DNS server (DNS resolver):"
+          - text: These servers are the first in the DNS check process. Receive DNS queries from clients and resolve the human-readable domain name to an IP address. That server tracks the IP address for the searched domain or hostname.
+        - listitem [ref=e805]:
+          - strong [ref=e806]: "Root DNS servers:"
+          - text: These servers are at the top of the DNS hierarchy and provide a list of top-level domain (TLD) servers to resolvers.
+        - listitem [ref=e807]:
+          - strong [ref=e808]: TLD Name Servers
+          - text: ": These servers return the authoritative name servers for each domain. These are responsible for handling the requests for specific top-level domains like .com, org, etc. The .com TLD name servers will return results for abc.com but not abc.org."
+        - listitem [ref=e809]:
+          - strong [ref=e810]: "Authoritative DNS servers:"
+          - text: These servers are the last stop in the DNS resolution process. The authoritative nameservers for the searched domain hold the actual DNS records and respond to queries with the correct IP addresses.
+      - heading "How does the DNS process work?" [level=3] [ref=e811]
+      - paragraph [ref=e812]: "Suppose you request to open the URL https://xyz.com in your web browser's bar. Here’s how it works:"
+      - list [ref=e813]:
+        - listitem [ref=e814]: Your browser sends a DNS query to a DNS resolver (recursive Server), usually provided by your Internet Service Provider (ISP).
+        - listitem [ref=e815]: The recursive resolver checks its cache to see if it already has the requested DNS information for the domain name. If it does, it returns to your computer, and the process ends.
+        - listitem [ref=e816]: If the recursive resolver doesn't have the DNS information in its cache, it sends a query to the root DNS servers. These servers maintain a database of all the top-level domain names, such as .com, .org, .net, etc.
+        - listitem [ref=e817]: The recursive resolver then contacts the root DNS servers that respond to the query with the IP of appropriate TLD (Top-Level Domain) DNS servers.
+        - listitem [ref=e818]: The TLD DNS servers respond to the query by referring to the authoritative DNS servers for the domain name. These servers are responsible for maintaining the DNS records for the domain.
+        - listitem [ref=e819]: The authoritative DNS servers respond to the query with the requested DNS records for the domain name.
+        - listitem [ref=e820]: The DNS resolver caches the updated/latest fetched DNS records and returns them to your computer, which can now be used for whatever purpose those records were requested.
+      - heading "What is DNS propagation?" [level=3] [ref=e821]
+      - paragraph [ref=e822]:
+        - text: DNS propagation is the time DNS changes take to be updated across the internet over the globe. It can take up to 48 hours to propagate worldwide. Use our
+        - link "Global DNS Propagation Checker" [ref=e823] [cursor=pointer]:
+          - /url: https://dnschecker.org/
+        - text: for free to get a quick report on your DNS propagation status.
+      - heading "How do DNS records propagate?" [level=3] [ref=e824]
+      - paragraph [ref=e825]: When you update your DNS records, the changes may take up to 48 hours. During this period, ISPs worldwide update their DNS cache with new DNS information for your domain.
+      - paragraph [ref=e826]:
+        - text: However, DNS records may take some time to propagate due to different DNS cache levels. Thus, some visitors might be directed to the old server’s IP until the DNS propagation process finishes worldwide. However, most visitors see updated DNS records shortly after they change. You can look up A, AAAA, CNAME, and additional DNS records lookup from our
+        - link "DNS lookup" [ref=e827] [cursor=pointer]:
+          - /url: https://dnschecker.org/all-dns-records-of-domain.php
+        - text: tool.
+      - heading "Why DNS propagation takes time?" [level=3] [ref=e828]
+      - paragraph [ref=e829]: Suppose you changed your domain's nameservers and requested to open your domain on the web browser. Your request will not go to the hosting directly. Each ISP node first checks its DNS cache, whether it has the DNS information for that domain. If it is not there, it will look it up by fetching DNS information from the authoritative DNS server of the domain to serve the user’s request. It also saves that info for future use to speed up the DNS lookup process. Thus, the new nameservers will not propagate instantly. ISPs have different cache refreshing levels resulting in some still having the old DNS information in their cache.
+      - heading "Why is DNS not propagating?" [level=3] [ref=e830]
+      - paragraph [ref=e831]: The ISPs across the world have different caching levels. The DNS client or the server may cache the information of the DNS records in its DNS cache. That information is temporarily cached, and DNS servers will go for the updated DNS information when TTL (Time to Live) expires.
+      - paragraph [ref=e832]:
+        - strong [ref=e833]: "Note:"
+        - text: If your new DNS changes are still not reflecting, you can go for a
+        - link "DNS health check" [ref=e834] [cursor=pointer]:
+          - /url: https://dnschecker.org/domain-health-checker.php
+        - text: to ensure that your DNS changes are up to the mark and following the standards. You can also
+        - link "flush your DNS cache" [ref=e835] [cursor=pointer]:
+          - /url: https://dnschecker.org/flush-dns.php
+        - text: .
+      - heading "What will happen if the domain name does not exist?" [level=3] [ref=e836]
+      - paragraph [ref=e837]: The DNS server will return a name error, also known as an NXDomain response (for a non-existent domain), to symbolize that the query's domain name does not exist.
+      - heading "What is the port used by DNS?" [level=3] [ref=e838]
+      - paragraph [ref=e839]: DNS uses both TCP and UDP port 53. However, the most frequently used port for DNS is UDP 53. That is used when the client's computer communicates with the DNS server to resolve the domain name. When using the UDP 53 for DNS, the maximum size of the query packet is 512 bytes.
+      - paragraph [ref=e840]:
+        - text: TCP 53 is used primarily for Zone Transfers and when the query packet exceeds 512 bytes. That is true when DNSSEC is used, which adds extra overhead to the DNS query packet. You can test all the server ports using a
+        - link "port scanner online" [ref=e841] [cursor=pointer]:
+          - /url: https://dnschecker.org/port-scanner.php
+        - text: .
+      - heading "What is DNS failure?" [level=3] [ref=e842]
+      - paragraph [ref=e843]: DNS failure means that the DNS server cannot convert the domain name into an IP address in a TCP/IP network. That failure may occur within the company's private network or the internet.
+      - heading "Which are the best DNS servers?" [level=3] [ref=e844]
+      - paragraph [ref=e845]:
+        - text: Some of the best
+        - link "Global DNS servers" [ref=e846] [cursor=pointer]:
+          - /url: https://dnschecker.org/dns/Global
+        - text: "are as follows:"
+      - list [ref=e847]:
+        - listitem [ref=e848]:
+          - strong [ref=e849]: "Google Public DNS:"
+          - list [ref=e850]:
+            - listitem [ref=e851]:
+              - strong [ref=e852]: "IPv4:"
+              - list [ref=e853]:
+                - listitem [ref=e854]:
+                  - text: "Primary:"
+                  - code [ref=e855]: 8.8.8.8
+                - listitem [ref=e856]:
+                  - text: "Secondary:"
+                  - code [ref=e857]: 8.8.4.4
+            - listitem [ref=e858]:
+              - strong [ref=e859]: "IPv6:"
+              - list [ref=e860]:
+                - listitem [ref=e861]:
+                  - text: "Primary:"
+                  - code [ref=e862]: 2001:4860:4860::8888
+                - listitem [ref=e863]:
+                  - text: "Secondary:"
+                  - code [ref=e864]: 2001:4860:4860::8844
+        - listitem [ref=e865]:
+          - strong [ref=e866]: "OpenDNS:"
+          - list [ref=e867]:
+            - listitem [ref=e868]:
+              - strong [ref=e869]: "IPv4:"
+              - list [ref=e870]:
+                - listitem [ref=e871]:
+                  - text: "Primary:"
+                  - code [ref=e872]: 208.67.222.222
+                - listitem [ref=e873]:
+                  - text: "Secondary:"
+                  - code [ref=e874]: 208.67.220.220
+            - listitem [ref=e875]:
+              - strong [ref=e876]: "IPv6:"
+              - list [ref=e877]:
+                - listitem [ref=e878]:
+                  - text: "Primary:"
+                  - code [ref=e879]: 2620:119:35::35
+                - listitem [ref=e880]:
+                  - text: "Secondary:"
+                  - code [ref=e881]: 2620:119:53::53
+        - listitem [ref=e882]:
+          - strong [ref=e883]: "Quad9 (Malware Blocking Enabled):"
+          - list [ref=e884]:
+            - listitem [ref=e885]:
+              - strong [ref=e886]: "IPv4:"
+              - list [ref=e887]:
+                - listitem [ref=e888]:
+                  - text: "Primary:"
+                  - code [ref=e889]: 9.9.9.9
+                - listitem [ref=e890]:
+                  - text: "Secondary:"
+                  - code [ref=e891]: 149.112.112.112
+            - listitem [ref=e892]:
+              - strong [ref=e893]: "IPv6:"
+              - list [ref=e894]:
+                - listitem [ref=e895]:
+                  - text: "Primary:"
+                  - code [ref=e896]: 2620:fe::fe
+                - listitem [ref=e897]:
+                  - text: "Secondary:"
+                  - code [ref=e898]: 2620:fe::9
+        - listitem [ref=e899]:
+          - strong [ref=e900]: "DNS.Watch:"
+          - list [ref=e901]:
+            - listitem [ref=e902]:
+              - strong [ref=e903]: "IPv4:"
+              - list [ref=e904]:
+                - listitem [ref=e905]:
+                  - text: "Primary:"
+                  - code [ref=e906]: 84.200.69.80
+                - listitem [ref=e907]:
+                  - text: "Secondary:"
+                  - code [ref=e908]: 84.200.70.40
+            - listitem [ref=e909]:
+              - strong [ref=e910]: "IPv6:"
+              - list [ref=e911]:
+                - listitem [ref=e912]:
+                  - text: "Primary:"
+                  - code [ref=e913]: 2001:1608:10:25::1c04:b12f
+                - listitem [ref=e914]:
+                  - text: "Secondary:"
+                  - code [ref=e915]: 2001:1608:10:25::9249:d69b
+        - listitem [ref=e916]:
+          - strong [ref=e917]: "Comodo Secure DNS:"
+          - list [ref=e918]:
+            - listitem [ref=e919]:
+              - strong [ref=e920]: "IPv4:"
+              - list [ref=e921]:
+                - listitem [ref=e922]:
+                  - text: "Primary:"
+                  - code [ref=e923]: 8.26.56.26
+                - listitem [ref=e924]:
+                  - text: "Secondary:"
+                  - code [ref=e925]: 8.20.247.20
+        - listitem [ref=e926]:
+          - strong [ref=e927]: "Cloudflare:"
+          - list [ref=e928]:
+            - listitem [ref=e929]:
+              - strong [ref=e930]: "IPv4:"
+              - list [ref=e931]:
+                - listitem [ref=e932]:
+                  - text: "Primary:"
+                  - code [ref=e933]: 1.1.1.1
+                - listitem [ref=e934]:
+                  - text: "Secondary:"
+                  - code [ref=e935]: 1.0.0.1
+            - listitem [ref=e936]:
+              - strong [ref=e937]: "IPv6:"
+              - list [ref=e938]:
+                - listitem [ref=e939]:
+                  - text: "Primary:"
+                  - code [ref=e940]: 2606:4700:4700::1111
+                - listitem [ref=e941]:
+                  - text: "Secondary:"
+                  - code [ref=e942]: 2606:4700:4700::1001
+                  - code
+                  - paragraph:
+                    - code
+      - paragraph [ref=e943]:
+        - link "Public DNS Servers" [ref=e944] [cursor=pointer]:
+          - /url: https://dnschecker.org/public-dns
+        - text: by country provide a complete list of all DNS servers, including the world's best IPv4 and IPv6 public DNS servers.
+      - paragraph:
+        - code
+      - paragraph:
+        - code
+  - generic [ref=e951]:
+    - generic [ref=e952]:
+      - heading "DNS Check Tools" [level=5] [ref=e953]
+      - list [ref=e954]:
+        - listitem [ref=e955]:
+          - link "DNS Checker" [ref=e956] [cursor=pointer]:
+            - /url: https://dnschecker.org
+        - listitem [ref=e957]:
+          - link "Complete DNS Health Report" [ref=e958] [cursor=pointer]:
+            - /url: https://dnschecker.org/domain-health-checker.php
+        - listitem [ref=e959]:
+          - link "Reverse IP Lookup" [ref=e960] [cursor=pointer]:
+            - /url: https://dnschecker.org/reverse-dns.php
+        - listitem [ref=e961]:
+          - link "DNS Lookup" [ref=e962] [cursor=pointer]:
+            - /url: https://dnschecker.org/all-dns-records-of-domain.php
+        - listitem [ref=e963]:
+          - link "NS Lookup" [ref=e964] [cursor=pointer]:
+            - /url: https://dnschecker.org/ns-lookup.php
+        - listitem [ref=e965]:
+          - link "MX Lookup" [ref=e966] [cursor=pointer]:
+            - /url: https://dnschecker.org/mx-lookup.php
+    - generic [ref=e967]:
+      - heading "Productivity" [level=5] [ref=e968]
+      - list [ref=e969]:
+        - listitem [ref=e970]:
+          - link "Binary Translator" [ref=e971] [cursor=pointer]:
+            - /url: https://dnschecker.org/binary-to-text-translator.php
+        - listitem [ref=e972]:
+          - link "Reverse Image Search" [ref=e973] [cursor=pointer]:
+            - /url: https://dnschecker.org/reverse-image-search.php
+        - listitem [ref=e974]:
+          - link "CC Checker" [ref=e975] [cursor=pointer]:
+            - /url: https://dnschecker.org/credit-card-validator.php
+        - listitem [ref=e976]:
+          - link "Notepad Online" [ref=e977] [cursor=pointer]:
+            - /url: https://dnschecker.org/notepad-online.php
+    - generic [ref=e978]:
+      - heading "More Tools" [level=5] [ref=e979]
+      - list [ref=e980]:
+        - listitem [ref=e981]:
+          - link "QR Code Scanner" [ref=e982] [cursor=pointer]:
+            - /url: https://dnschecker.org/qr-code-scanner.php
+        - listitem [ref=e983]:
+          - link "Time Card Calculator" [ref=e984] [cursor=pointer]:
+            - /url: https://dnschecker.org/time-card-calculator.php
+        - listitem [ref=e985]:
+          - link "Morse Code Translator" [ref=e986] [cursor=pointer]:
+            - /url: https://dnschecker.org/morse-code-translator.php
+        - listitem [ref=e987]:
+          - link "Image to Text" [ref=e988] [cursor=pointer]:
+            - /url: https://dnschecker.org/image-to-text-converter.php
+        - listitem [ref=e989]:
+          - link "Social Media Name Checker" [ref=e990] [cursor=pointer]:
+            - /url: https://dnschecker.org/social-media-name-checker.php
+    - generic [ref=e991]:
+      - heading "DNS Server Database" [level=5] [ref=e992]
+      - list [ref=e993]:
+        - listitem [ref=e994]:
+          - link "Global DNS Providers" [ref=e995] [cursor=pointer]:
+            - /url: https://dnschecker.org/dns/Global
+        - listitem [ref=e996]:
+          - link "Australian DNS Servers" [ref=e997] [cursor=pointer]:
+            - /url: https://dnschecker.org/dns/Australia
+        - listitem [ref=e998]:
+          - link "United Kingdom DNS Servers" [ref=e999] [cursor=pointer]:
+            - /url: https://dnschecker.org/dns/United-Kingdom
+        - listitem [ref=e1000]:
+          - link "United States DNS Servers" [ref=e1001] [cursor=pointer]:
+            - /url: https://dnschecker.org/dns/United-States-of-America
+    - generic [ref=e1002]:
+      - heading "Developer Tools" [level=5] [ref=e1003]
+      - list [ref=e1004]:
+        - listitem [ref=e1005]:
+          - link "Password Generator" [ref=e1006] [cursor=pointer]:
+            - /url: https://dnschecker.org/password-generator.php
+        - listitem [ref=e1007]:
+          - link "Check HTTP Headers" [ref=e1008] [cursor=pointer]:
+            - /url: https://dnschecker.org/server-headers-check.php
+        - listitem [ref=e1009]:
+          - link "Check Website OS" [ref=e1010] [cursor=pointer]:
+            - /url: https://dnschecker.org/website-server-software.php
+        - listitem [ref=e1011]:
+          - link "Page rank Checker" [ref=e1012] [cursor=pointer]:
+            - /url: https://dnschecker.org/pagerank.php
+    - generic [ref=e1013]:
+      - heading "Network Tools" [level=5] [ref=e1014]
+      - list [ref=e1015]:
+        - listitem [ref=e1016]:
+          - link "Port Checker" [ref=e1017] [cursor=pointer]:
+            - /url: https://dnschecker.org/port-scanner.php
+        - listitem [ref=e1018]:
+          - link "MAC Address Lookup" [ref=e1019] [cursor=pointer]:
+            - /url: https://dnschecker.org/mac-lookup.php
+        - listitem [ref=e1020]:
+          - link "ASN WHOIS Lookup" [ref=e1021] [cursor=pointer]:
+            - /url: https://dnschecker.org/asn-whois-lookup.php
+    - generic [ref=e1022]:
+      - heading "Email Tools" [level=5] [ref=e1023]
+      - list [ref=e1024]:
+        - listitem [ref=e1025]:
+          - link "SMTP Test" [ref=e1026] [cursor=pointer]:
+            - /url: https://dnschecker.org/smtp-test-tool.php
+        - listitem [ref=e1027]:
+          - link "Trace Email" [ref=e1028] [cursor=pointer]:
+            - /url: https://dnschecker.org/email-header-analyzer.php
+        - listitem [ref=e1029]:
+          - link "SPF Checker" [ref=e1030] [cursor=pointer]:
+            - /url: https://dnschecker.org/spf-record-validation.php
+    - generic [ref=e1031]:
+      - heading "IP Tools" [level=5] [ref=e1032]
+      - list [ref=e1033]:
+        - listitem [ref=e1034]:
+          - link "What is my IP" [ref=e1035] [cursor=pointer]:
+            - /url: https://dnschecker.org/whats-my-ip-address.php
+        - listitem [ref=e1036]:
+          - link "IP Location Lookup" [ref=e1037] [cursor=pointer]:
+            - /url: https://dnschecker.org/ip-location.php
+        - listitem [ref=e1038]:
+          - link "IP Blacklist Check" [ref=e1039] [cursor=pointer]:
+            - /url: https://dnschecker.org/ip-blacklist-checker.php
+        - listitem [ref=e1040]:
+          - link "IP WHOIS Lookup" [ref=e1041] [cursor=pointer]:
+            - /url: https://dnschecker.org/ip-whois-lookup.php
+    - generic [ref=e1042]:
+      - heading "Apps And Add-ons" [level=5] [ref=e1043]
+      - generic [ref=e1044]:
+        - link "Get it on Google Play" [ref=e1046] [cursor=pointer]:
+          - /url: https://dnschecker.org/out/dnschecker_gplay
+          - img "Get it on Google Play" [ref=e1047]
+        - link "Get Chrome Extension" [ref=e1049] [cursor=pointer]:
+          - /url: https://chrome.google.com/webstore/detail/dns-checker/gegfpbhjnhegdnjdkghhnneaocdbbhjp
+          - text: Get Chrome Extension
+    - link "DNS Checker" [ref=e1053] [cursor=pointer]:
+      - /url: https://dnschecker.org
+      - img "DNS Checker" [ref=e1054]
+  - generic [ref=e1057]:
+    - paragraph [ref=e1059]: Copyright © DNSChecker.org, All Rights Reserved.
+    - link "Contact us" [ref=e1061] [cursor=pointer]:
+      - /url: https://dnschecker.org/contact.php
+    - link "Privacy" [ref=e1063] [cursor=pointer]:
+      - /url: https://dnschecker.org/privacy.php

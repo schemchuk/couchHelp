@@ -1,0 +1,42 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - heading "Error 1001" [level=1] [ref=e5]
+    - generic [ref=e6]: "Ray ID: 9fba1177fe61f66d •"
+    - generic [ref=e7]: 2026-05-14 12:57:21 UTC
+    - heading "DNS resolution error" [level=2] [ref=e8]
+  - generic [ref=e10]:
+    - heading "What happened?" [level=2] [ref=e11]
+    - paragraph [ref=e12]:
+      - text: You've requested a page on a website (clerk.couchhelp.click) that is on the
+      - link "Cloudflare" [ref=e13] [cursor=pointer]:
+        - /url: https://www.cloudflare.com/5xx-error-landing/
+      - text: "network. Cloudflare is currently unable to resolve your requested domain (clerk.couchhelp.click). There are two potential causes of this:"
+    - list [ref=e14]:
+      - listitem [ref=e15]:
+        - strong [ref=e16]: "Most likely:"
+        - text: if the owner just signed up for Cloudflare it can take a few minutes for the website's information to be distributed to our global network.
+      - listitem [ref=e17]:
+        - strong [ref=e18]: "Less likely:"
+        - text: something is wrong with this site's configuration. Usually this happens when accounts have been signed up with a partner organization (e.g., a hosting provider) and the provider's DNS fails.
+    - paragraph [ref=e19]:
+      - text: Please see
+      - link "https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1001/" [ref=e20] [cursor=pointer]:
+        - /url: https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1001/
+      - text: for more details.
+  - generic [ref=e22]:
+    - text: Was this page helpful?
+    - button "Yes" [ref=e23] [cursor=pointer]
+    - button "No" [ref=e24] [cursor=pointer]
+  - paragraph [ref=e26]:
+    - generic [ref=e27]:
+      - text: "Cloudflare Ray ID:"
+      - strong [ref=e28]: 9fba1177fe61f66d
+    - text: •
+    - generic [ref=e29]:
+      - text: "Your IP:"
+      - button "Click to reveal" [ref=e30] [cursor=pointer]
+      - text: •
+    - generic [ref=e31]:
+      - text: Performance & security by
+      - link "Cloudflare" [ref=e32] [cursor=pointer]:
+        - /url: https://www.cloudflare.com/5xx-error-landing

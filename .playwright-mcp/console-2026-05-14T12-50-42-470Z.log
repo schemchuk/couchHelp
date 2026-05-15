@@ -1,0 +1,32 @@
+[     846ms] [ERROR] Failed to load resource: net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH @ https://clerk.couchhelp.click/npm/@clerk/ui@1/dist/ui.browser.js:0
+[     848ms] [ERROR] Failed to load resource: net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH @ https://clerk.couchhelp.click/npm/@clerk/clerk-js@6/dist/clerk.browser.js:0
+[    1030ms] [ERROR] Failed to load resource: net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH @ https://clerk.couchhelp.click/npm/@clerk/clerk-js@6/dist/clerk.browser.js:0
+[    1371ms] [ERROR] Failed to load resource: net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH @ https://clerk.couchhelp.click/npm/@clerk/clerk-js@6/dist/clerk.browser.js:0
+[    1867ms] [ERROR] Failed to load resource: net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH @ https://clerk.couchhelp.click/npm/@clerk/clerk-js@6/dist/clerk.browser.js:0
+[    2497ms] [ERROR] Failed to load resource: net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH @ https://clerk.couchhelp.click/npm/@clerk/clerk-js@6/dist/clerk.browser.js:0
+[    3804ms] [ERROR] Failed to load resource: net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH @ https://clerk.couchhelp.click/npm/@clerk/clerk-js@6/dist/clerk.browser.js:0
+[    6818ms] [WARNING] The resource https://clerk.couchhelp.click/npm/@clerk/ui@1/dist/ui.browser.js was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://couchhelp.click/sign-in:0
+[    7418ms] [ERROR] Failed to load resource: net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH @ https://clerk.couchhelp.click/npm/@clerk/clerk-js@6/dist/clerk.browser.js:0
+[    7419ms] e: Clerk: Failed to load Clerk JS, failed to load script: https://clerk.couchhelp.click/npm/@clerk/clerk-js@6/dist/clerk.browser.js
+
+(code="failed_to_load_clerk_js")
+
+
+    at r (https://couchhelp.click/_next/static/chunks/0~.mem7.gnz8j.js:19:3110)
+    at https://couchhelp.click/_next/static/chunks/0~.mem7.gnz8j.js:19:3579
+[   10421ms] [WARNING] The resource https://clerk.couchhelp.click/npm/@clerk/ui@1/dist/ui.browser.js was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://couchhelp.click/sign-in:0
+[   15894ms] [ERROR] e: Clerk: Failed to load Clerk JS
+
+(code="failed_to_load_clerk_js")
+
+
+    at r (https://couchhelp.click/_next/static/chunks/0~.mem7.gnz8j.js:19:3110)
+    at i2 (https://couchhelp.click/_next/static/chunks/0~.mem7.gnz8j.js:19:3475)
+    at t.getClerkJsEntryChunk (https://couchhelp.click/_next/static/chunks/0~.mem7.gnz8j.js:19:41416)
+    at t.getEntryChunks (https://couchhelp.click/_next/static/chunks/0~.mem7.gnz8j.js:19:40898)
+    at new t (https://couchhelp.click/_next/static/chunks/0~.mem7.gnz8j.js:19:38800)
+    at t.getOrCreateInstance (https://couchhelp.click/_next/static/chunks/0~.mem7.gnz8j.js:19:39209)
+    at nb (https://couchhelp.click/_next/static/chunks/0~.mem7.gnz8j.js:19:43919)
+    at https://couchhelp.click/_next/static/chunks/0~.mem7.gnz8j.js:19:43667
+    at ay (https://couchhelp.click/_next/static/chunks/110q6k5sdl4es.js:1:56831)
+    at oZ (https://couchhelp.click/_next/static/chunks/110q6k5sdl4es.js:1:77088) @ https://couchhelp.click/_next/static/chunks/0~.mem7.gnz8j.js:18

@@ -47,6 +47,14 @@ export function Sidebar() {
           )
         })}
       </nav>
+      <div className="border-t border-slate-200 p-4">
+        <Link
+          href="/privacy"
+          className="text-xs text-slate-500 hover:text-slate-700 hover:underline"
+        >
+          Privacy Policy
+        </Link>
+      </div>
     </div>
   )
 }
