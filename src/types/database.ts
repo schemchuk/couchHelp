@@ -101,6 +101,8 @@ export interface Database {
           ai_draft: string | null
           ai_classification: string | null
           transcription: string | null
+          ai_generated: boolean | null
+          parent_message_id: string | null
           created_at: string
           updated_at: string
         }
@@ -119,6 +121,8 @@ export interface Database {
           ai_draft?: string | null
           ai_classification?: string | null
           transcription?: string | null
+          ai_generated?: boolean | null
+          parent_message_id?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -136,6 +140,8 @@ export interface Database {
           ai_draft?: string | null
           ai_classification?: string | null
           transcription?: string | null
+          ai_generated?: boolean | null
+          parent_message_id?: string | null
           created_at?: string
           updated_at?: string
         }

@@ -70,7 +70,7 @@ export async function runAIPipeline(params: RunAIPipelineParams): Promise<void> 
           error: transError.message,
         })
       } else {
-        await logAudit(tenantId, 'audio_transcribed', {
+        await logAudit(tenantId, 'ai_transcription', {
           message_id: messageId,
           transcription_length: transcriptionText.length,
           language: transcription.language,
@@ -119,7 +119,7 @@ export async function runAIPipeline(params: RunAIPipelineParams): Promise<void> 
       return
     }
 
-    await logAudit(tenantId, 'message_classified', {
+    await logAudit(tenantId, 'ai_classification', {
       message_id: messageId,
       type: classification.type,
       tone: classification.tone,
@@ -127,6 +127,15 @@ export async function runAIPipeline(params: RunAIPipelineParams): Promise<void> 
       has_promise: classification.hasPromise,
       confidence: classification.confidence,
     })
+
+    // Якщо впевненість < 0.6 — не генеруємо чернетку
+    if (classification.confidence < 0.6) {
+      await supabase
+        .from('messages')
+        .update({ ai_classification: JSON.stringify({ ...classification, type: 'unclear' }) })
+        .eq('id', messageId)
+      return
+    }
 
     // 3. Генерація чернетки
     const draft = await generateDraft(
@@ -145,14 +154,16 @@ export async function runAIPipeline(params: RunAIPipelineParams): Promise<void> 
       return
     }
 
-    // Створити новий message з direction='draft'
+    // Чернетка — окремий запис з прив'язкою до вхідного повідомлення
     const { error: draftError } = await supabase.from('messages').insert({
       tenant_id: tenantId,
       client_id: clientId,
-      direction: 'draft',
-      status: 'pending_approval',
+      direction: 'outbound',
+      status: 'draft',
       message_type: 'text',
       body: draft.text,
+      ai_generated: true,
+      parent_message_id: messageId,
       ai_classification: JSON.stringify(classification),
     })
 
@@ -166,7 +177,7 @@ export async function runAIPipeline(params: RunAIPipelineParams): Promise<void> 
       return
     }
 
-    await logAudit(tenantId, 'draft_created', {
+    await logAudit(tenantId, 'ai_draft_created', {
       original_message_id: messageId,
       client_id: clientId,
       draft_language: draft.language,

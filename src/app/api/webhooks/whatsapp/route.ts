@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { after } from 'next/server'
+import { waitUntil } from '@vercel/functions'
 import { verifyWebhookSignature } from '@/lib/whatsapp/signature'
 import {
   extractMessages,
@@ -47,14 +47,12 @@ export async function POST(request: NextRequest) {
   }
 
   // 2. Швидка відповідь 200 OK — не блокуємо Meta
-  // Обробка реєструється в lifecycle через after() — Vercel чекає завершення
-  after(async () => {
-    try {
-      await handleWebhook(rawBody)
-    } catch (error) {
+  // waitUntil повідомляє Vercel тримати функцію активною до завершення pipeline
+  waitUntil(
+    handleWebhook(rawBody).catch((error) => {
       console.error('[WhatsApp Webhook] Background processing error:', error)
-    }
-  })
+    })
+  )
 
   return NextResponse.json({ status: 'ok' })
 }
