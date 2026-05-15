@@ -1,28 +1,23 @@
 import { anthropic } from '@/lib/anthropic/client'
+import type { ClassificationResult, DraftResult, SupportedLanguage } from './types'
+import { buildDraftSystemPrompt } from './prompts/draft'
 
 /**
  * Генерує AI-чернетку відповіді на вхідне повідомлення.
  *
- * Тон: професійний але теплий.
- * Довжина: коротко, як у WhatsApp (не email).
- * Не вигадувати деталі яких немає — залишати [...] для заповнення коучем.
+ * @param incomingMessage — текст вхідного повідомлення
+ * @param classification — результат класифікації
+ * @param clientName — ім'я клієнта (опціонально)
+ * @param clientHistory — історія переписки
+ * @returns DraftResult або null у разі помилки
  */
 export async function generateDraft(
   incomingMessage: string,
-  classification: string,
-  language: 'de' | 'ru' | 'ua' | null,
+  classification: ClassificationResult,
   clientName: string | null,
   clientHistory: string[]
-): Promise<string> {
-  const langMap: Record<string, string> = {
-    de: 'Deutsch',
-    ru: 'Русский',
-    ua: 'Українська',
-  }
-
-  const langInstruction = language
-    ? `Відповідай СТРОГО мовою: ${langMap[language] ?? language}.`
-    : 'Відповідай мовою оригінального повідомлення клієнта.'
+): Promise<DraftResult | null> {
+  const systemPrompt = buildDraftSystemPrompt(classification)
 
   const historyContext = clientHistory.length
     ? `Контекст попередньої переписки:\n${clientHistory.join('\n---\n')}\n\n`
@@ -33,18 +28,9 @@ export async function generateDraft(
   try {
     const response = await anthropic.messages.create({
       model: 'claude-3-haiku-20240307',
-      max_tokens: 500,
-      temperature: 0.7,
-      system: `Ти — асистент AVGS-коуча. ${langInstruction}
-
-Правила:
-- Тон: професійний але теплий.
-- Довжина: коротко, як у WhatsApp (не email).
-- Не вигадуй деталі яких немає — залишай [...] для заповнення коучем.
-- Не давай юридичних консультацій — тільки загальну інформацію.
-- Не обіцяй конкретних результатів.
-
-Категорія запиту: ${classification}.`,
+      max_tokens: 600,
+      temperature: 0.6,
+      system: systemPrompt,
       messages: [
         {
           role: 'user',
@@ -55,12 +41,22 @@ export async function generateDraft(
 
     const content = response.content[0]
     if (content.type !== 'text') {
-      return ''
+      return null
     }
 
-    return content.text.trim()
+    const text = content.text.trim()
+
+    // Якщо мова не визначена — використовуємо 'de' як дефолт для чернетки,
+    // хоча prompt уже вказує запитати мову клієнта
+    const language: SupportedLanguage = classification.language ?? 'de'
+
+    const model = response.model
+    const promptTokens = response.usage?.input_tokens ?? 0
+    const completionTokens = response.usage?.output_tokens ?? 0
+
+    return { text, language, model, promptTokens, completionTokens }
   } catch (error) {
-    console.error('[AI Draft] Generation failed:', error)
-    return ''
+    console.error('[AI Draft] Помилка генерації чернетки:', error)
+    return null
   }
 }

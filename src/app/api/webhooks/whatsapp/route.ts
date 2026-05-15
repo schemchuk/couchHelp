@@ -11,7 +11,7 @@ import {
 import type { WhatsAppWebhookPayload } from '@/lib/whatsapp/types'
 import { createClient as createServiceClient } from '@supabase/supabase-js'
 import type { Database, Json } from '@/types/database'
-import { processWithAI } from '@/lib/ai/processor'
+import { runAIPipeline } from '@/lib/ai/pipeline'
 
 // GET — верифікація webhook від Meta
 export async function GET(request: NextRequest) {
@@ -213,12 +213,14 @@ async function handleWebhook(rawBody: string): Promise<void> {
     .filter((body): body is string => body !== null)
     .reverse()
 
-  await processWithAI({
+  await runAIPipeline({
     messageId: savedMessage.id,
     tenantId,
     clientId,
-    messageText: message.text?.body ?? '',
-    clientLanguage,
+    messageType: message.type ?? 'unknown',
+    messageText: message.text?.body ?? null,
+    // mediaUrl отримується через WhatsApp Media API (потрібен розшифрований access token — Блок 10)
+    mediaUrl: null,
     clientName: senderName,
     clientHistory,
   })

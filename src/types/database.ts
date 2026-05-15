@@ -100,6 +100,7 @@ export interface Database {
           media_filename: string | null
           ai_draft: string | null
           ai_classification: string | null
+          transcription: string | null
           created_at: string
           updated_at: string
         }
@@ -117,6 +118,7 @@ export interface Database {
           media_filename?: string | null
           ai_draft?: string | null
           ai_classification?: string | null
+          transcription?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -133,6 +135,7 @@ export interface Database {
           media_filename?: string | null
           ai_draft?: string | null
           ai_classification?: string | null
+          transcription?: string | null
           created_at?: string
           updated_at?: string
         }
