@@ -103,6 +103,7 @@ export interface Database {
           transcription: string | null
           ai_generated: boolean | null
           parent_message_id: string | null
+          is_read: boolean | null
           created_at: string
           updated_at: string
         }
@@ -123,6 +124,7 @@ export interface Database {
           transcription?: string | null
           ai_generated?: boolean | null
           parent_message_id?: string | null
+          is_read?: boolean | null
           created_at?: string
           updated_at?: string
         }
@@ -142,6 +144,7 @@ export interface Database {
           transcription?: string | null
           ai_generated?: boolean | null
           parent_message_id?: string | null
+          is_read?: boolean | null
           created_at?: string
           updated_at?: string
         }

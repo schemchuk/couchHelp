@@ -1,13 +1,15 @@
-export default function InboxClientPage({
-  params,
-}: {
+import { MessageThread } from '@/components/inbox/MessageThread'
+
+interface InboxClientPageProps {
   params: Promise<{ clientId: string }>
-}) {
-  // Блок 03 — переписка з конкретним клієнтом
+}
+
+export default async function InboxClientPage({ params }: InboxClientPageProps) {
+  const { clientId } = await params
+
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold text-slate-900">Переписка</h1>
-      <p className="text-slate-500">Coming in Block 03</p>
+    <div className="h-[calc(100vh-4rem)]">
+      <MessageThread clientId={clientId} />
     </div>
   )
 }
