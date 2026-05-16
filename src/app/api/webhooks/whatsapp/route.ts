@@ -13,6 +13,19 @@ import { createClient as createServiceClient } from '@supabase/supabase-js'
 import type { Database, Json } from '@/types/database'
 import { runAIPipeline } from '@/lib/ai/pipeline'
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, x-hub-signature-256',
+  'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+  'Pragma': 'no-cache',
+}
+
+// OPTIONS — CORS preflight (на випадок якщо Meta Dashboard ходить через браузер)
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 204, headers: CORS_HEADERS })
+}
+
 // GET — верифікація webhook від Meta
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -25,48 +38,37 @@ export async function GET(request: NextRequest) {
     tokenPresent: !!token,
     challengePresent: !!challenge,
     url: request.url,
+    origin: request.headers.get('origin'),
+    userAgent: request.headers.get('user-agent'),
   })
 
   if (mode !== 'subscribe') {
     console.log('[WhatsApp Webhook] Rejected: hub.mode !== subscribe')
-    return new NextResponse('Forbidden', {
-      status: 403,
-      headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate', 'Pragma': 'no-cache' },
-    })
+    return new NextResponse('Forbidden', { status: 403, headers: CORS_HEADERS })
   }
 
   const expectedToken = process.env.WHATSAPP_WEBHOOK_VERIFY_TOKEN
   if (!expectedToken) {
     console.error('[WhatsApp Webhook] Rejected: WHATSAPP_WEBHOOK_VERIFY_TOKEN is not set')
-    return new NextResponse('Server misconfigured', {
-      status: 500,
-      headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate', 'Pragma': 'no-cache' },
-    })
+    return new NextResponse('Server misconfigured', { status: 500, headers: CORS_HEADERS })
   }
 
   if (token !== expectedToken) {
     console.log('[WhatsApp Webhook] Rejected: verify_token mismatch')
-    return new NextResponse('Forbidden', {
-      status: 403,
-      headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate', 'Pragma': 'no-cache' },
-    })
+    return new NextResponse('Forbidden', { status: 403, headers: CORS_HEADERS })
   }
 
   if (!challenge) {
     console.log('[WhatsApp Webhook] Rejected: hub.challenge missing')
-    return new NextResponse('Bad Request: challenge missing', {
-      status: 400,
-      headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate', 'Pragma': 'no-cache' },
-    })
+    return new NextResponse('Bad Request: challenge missing', { status: 400, headers: CORS_HEADERS })
   }
 
   console.log('[WhatsApp Webhook] Verified successfully, returning challenge')
   return new NextResponse(challenge, {
     status: 200,
     headers: {
+      ...CORS_HEADERS,
       'Content-Type': 'text/plain',
-      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-      'Pragma': 'no-cache',
     },
   })
 }
