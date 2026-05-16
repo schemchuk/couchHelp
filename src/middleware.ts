@@ -9,6 +9,11 @@ const isPublicRoute = createRouteMatcher([
 ])
 
 export default clerkMiddleware(async (auth, request) => {
+  // Повністю пропускаємо webhook-запити — Clerk не має до них лізти
+  if (request.nextUrl.pathname.startsWith('/api/webhooks')) {
+    return
+  }
+
   if (!isPublicRoute(request)) {
     await auth.protect()
   }

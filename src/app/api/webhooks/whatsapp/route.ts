@@ -20,14 +20,55 @@ export async function GET(request: NextRequest) {
   const token = searchParams.get('hub.verify_token')
   const challenge = searchParams.get('hub.challenge')
 
-  if (
-    mode === 'subscribe' &&
-    token === process.env.WHATSAPP_WEBHOOK_VERIFY_TOKEN
-  ) {
-    return new NextResponse(challenge, { status: 200 })
+  console.log('[WhatsApp Webhook] GET verify attempt:', {
+    mode,
+    tokenPresent: !!token,
+    challengePresent: !!challenge,
+    url: request.url,
+  })
+
+  if (mode !== 'subscribe') {
+    console.log('[WhatsApp Webhook] Rejected: hub.mode !== subscribe')
+    return new NextResponse('Forbidden', {
+      status: 403,
+      headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate', 'Pragma': 'no-cache' },
+    })
   }
 
-  return new NextResponse('Forbidden', { status: 403 })
+  const expectedToken = process.env.WHATSAPP_WEBHOOK_VERIFY_TOKEN
+  if (!expectedToken) {
+    console.error('[WhatsApp Webhook] Rejected: WHATSAPP_WEBHOOK_VERIFY_TOKEN is not set')
+    return new NextResponse('Server misconfigured', {
+      status: 500,
+      headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate', 'Pragma': 'no-cache' },
+    })
+  }
+
+  if (token !== expectedToken) {
+    console.log('[WhatsApp Webhook] Rejected: verify_token mismatch')
+    return new NextResponse('Forbidden', {
+      status: 403,
+      headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate', 'Pragma': 'no-cache' },
+    })
+  }
+
+  if (!challenge) {
+    console.log('[WhatsApp Webhook] Rejected: hub.challenge missing')
+    return new NextResponse('Bad Request: challenge missing', {
+      status: 400,
+      headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate', 'Pragma': 'no-cache' },
+    })
+  }
+
+  console.log('[WhatsApp Webhook] Verified successfully, returning challenge')
+  return new NextResponse(challenge, {
+    status: 200,
+    headers: {
+      'Content-Type': 'text/plain',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      'Pragma': 'no-cache',
+    },
+  })
 }
 
 // POST — прийом повідомлень від WhatsApp
