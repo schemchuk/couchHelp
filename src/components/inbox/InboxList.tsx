@@ -43,6 +43,7 @@ export function InboxList({ onSelect, selectedClientId }: InboxListProps) {
   const supabase = createClient()
   const [items, setItems] = useState<GroupedClient[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [fetchError, setFetchError] = useState<string | null>(null)
 
   const groupMessages = useCallback((data: RawMessage[]): GroupedClient[] => {
     const map = new Map<string, GroupedClient>()
@@ -106,6 +107,7 @@ export function InboxList({ onSelect, selectedClientId }: InboxListProps) {
 
   const fetchMessages = useCallback(async () => {
     setIsLoading(true)
+    setFetchError(null)
     const { data, error } = await supabase
       .from('messages')
       .select('*, clients(id, name, phone)')
@@ -116,6 +118,7 @@ export function InboxList({ onSelect, selectedClientId }: InboxListProps) {
 
     if (error) {
       console.error('[InboxList] Fetch error:', error)
+      setFetchError(de.inbox.error)
       setIsLoading(false)
       return
     }
@@ -149,6 +152,20 @@ export function InboxList({ onSelect, selectedClientId }: InboxListProps) {
 
   if (isLoading) {
     return <InboxSkeleton />
+  }
+
+  if (fetchError) {
+    return (
+      <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
+        <p className="text-sm font-medium text-red-600">{fetchError}</p>
+        <button
+          onClick={fetchMessages}
+          className="text-xs text-slate-500 underline hover:text-slate-700"
+        >
+          {de.inbox.retry}
+        </button>
+      </div>
+    )
   }
 
   if (items.length === 0) {

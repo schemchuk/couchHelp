@@ -158,7 +158,7 @@ export async function runAIPipeline(params: RunAIPipelineParams): Promise<void> 
     const { error: draftError } = await supabase.from('messages').insert({
       tenant_id: tenantId,
       client_id: clientId,
-      direction: 'outbound',
+      direction: 'draft',
       status: 'draft',
       message_type: 'text',
       body: draft.text,

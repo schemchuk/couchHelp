@@ -63,7 +63,7 @@ export function DraftCard({ message, tenantId, onUpdated }: DraftCardProps) {
     setIsLoading(true)
     const { error } = await supabase
       .from('messages')
-      .update({ status: 'approved', updated_at: new Date().toISOString() })
+      .update({ direction: 'outbound', status: 'approved', updated_at: new Date().toISOString() })
       .eq('id', message.id)
 
     if (error) {

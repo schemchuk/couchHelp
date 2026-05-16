@@ -5,7 +5,6 @@ import { createClient } from '@/lib/supabase/client'
 import type { Database } from '@/types/database'
 import { de } from '@/lib/i18n/de'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Card } from '@/components/ui/card'
 import { AudioTranscription } from './AudioTranscription'
 import { DraftCard } from './DraftCard'
 
@@ -24,8 +23,10 @@ export function MessageThread({ clientId, tenantId }: MessageThreadProps) {
   const supabase = createClient()
   const [messages, setMessages] = useState<MessageRow[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [fetchError, setFetchError] = useState<string | null>(null)
 
   const fetchMessages = useCallback(async () => {
+    setFetchError(null)
     const { data, error } = await supabase
       .from('messages')
       .select('*')
@@ -35,6 +36,7 @@ export function MessageThread({ clientId, tenantId }: MessageThreadProps) {
 
     if (error) {
       console.error('[MessageThread] Fetch error:', error)
+      setFetchError(de.inbox.error)
       setIsLoading(false)
       return
     }
@@ -85,6 +87,20 @@ export function MessageThread({ clientId, tenantId }: MessageThreadProps) {
     return (
       <div className="flex h-full items-center justify-center">
         <p className="text-sm text-slate-400">{de.inbox.loading}</p>
+      </div>
+    )
+  }
+
+  if (fetchError) {
+    return (
+      <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
+        <p className="text-sm font-medium text-red-600">{fetchError}</p>
+        <button
+          onClick={fetchMessages}
+          className="text-xs text-slate-500 underline hover:text-slate-700"
+        >
+          {de.inbox.retry}
+        </button>
       </div>
     )
   }
