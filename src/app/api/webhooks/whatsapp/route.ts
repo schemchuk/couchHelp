@@ -65,6 +65,7 @@ async function handleWebhook(rawBody: string): Promise<void> {
 
   // 3. Витягти phone_number_id і знайти tenant
   const phoneNumberId = extractPhoneNumberId(payload)
+  console.log('[DIAG] phoneNumberId extracted:', phoneNumberId)
   if (!phoneNumberId) {
     console.warn('[WhatsApp Webhook] No phone_number_id found')
     return
@@ -81,6 +82,7 @@ async function handleWebhook(rawBody: string): Promise<void> {
     .eq('phone_number_id', phoneNumberId)
     .single()
 
+  console.log('[DIAG] tenant lookup — found:', !!tenant, '| error:', tenantError?.message ?? null)
   if (tenantError || !tenant) {
     console.warn('[WhatsApp Webhook] Tenant not found for phone_number_id:', phoneNumberId)
     await logAudit(null, 'webhook_received', {
@@ -91,9 +93,12 @@ async function handleWebhook(rawBody: string): Promise<void> {
   }
 
   const tenantId = tenant.id
+  console.log('[DIAG] tenantId:', tenantId)
 
   // 4. Перевірити чи це inbound message (а не status update)
-  if (!isInboundMessage(payload)) {
+  const isInbound = isInboundMessage(payload)
+  console.log('[DIAG] isInboundMessage:', isInbound)
+  if (!isInbound) {
     console.log('[WhatsApp Webhook] Status update received, skipping')
     await logAudit(tenantId, 'webhook_received', {
       type: 'status_update',
@@ -104,6 +109,7 @@ async function handleWebhook(rawBody: string): Promise<void> {
   // 5. Витягти перше повідомлення
   const messages = extractMessages(payload)
   const message = messages[0]
+  console.log('[DIAG] messages extracted:', messages.length, '| type:', message?.type ?? null)
   if (!message) {
     console.warn('[WhatsApp Webhook] No message found in payload')
     return
@@ -112,22 +118,23 @@ async function handleWebhook(rawBody: string): Promise<void> {
   const wamid = message.id
   const senderPhone = extractSenderPhone(message)
   const senderName = extractSenderName(payload, senderPhone)
+  console.log('[DIAG] wamid:', wamid, '| senderPhone:', senderPhone, '| senderName:', senderName)
 
   // 6. Знайти або створити client
   const { data: existingClient } = await supabase
     .from('clients')
-    .select('id, language')
+    .select('id')
     .eq('tenant_id', tenantId)
     .eq('phone', senderPhone)
     .single()
 
   let clientId: string
-  let clientLanguage: string | null = null
 
   if (existingClient) {
     clientId = existingClient.id
-    clientLanguage = existingClient.language
+    console.log('[DIAG] existing client found:', clientId)
   } else {
+    console.log('[DIAG] client not found, creating for phone:', senderPhone)
     const { data: newClient, error: clientError } = await supabase
       .from('clients')
       .insert({
@@ -149,9 +156,11 @@ async function handleWebhook(rawBody: string): Promise<void> {
     }
 
     clientId = newClient.id
+    console.log('[DIAG] new client created:', clientId)
   }
 
   // 7. Зберегти повідомлення (з дедуплікацією через ON CONFLICT DO NOTHING)
+  console.log('[DIAG] saving message, wamid:', wamid, '| client_id:', clientId)
   const { data: savedMessages, error: msgError } = await supabase
     .from('messages')
     .upsert(
@@ -186,6 +195,7 @@ async function handleWebhook(rawBody: string): Promise<void> {
   }
 
   const savedMessage = savedMessages[0]
+  console.log('[DIAG] message saved, id:', savedMessage.id)
 
   // 8. Записати в audit_log
   await logAudit(tenantId, 'webhook_received', {
@@ -211,6 +221,7 @@ async function handleWebhook(rawBody: string): Promise<void> {
     .filter((body): body is string => body !== null)
     .reverse()
 
+  console.log('[DIAG] calling runAIPipeline, messageId:', savedMessage.id)
   await runAIPipeline({
     messageId: savedMessage.id,
     tenantId,
