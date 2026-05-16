@@ -35,14 +35,18 @@ export async function POST(request: NextRequest) {
   const rawBody = await request.text()
   const signature = request.headers.get('x-hub-signature-256') ?? ''
 
+  console.log('[DIAG] POST received, signature present:', !!signature, 'body length:', rawBody.length)
+
   // 1. Верифікація підпису
   const appSecret = process.env.WHATSAPP_APP_SECRET
   if (!appSecret) {
-    console.error('WHATSAPP_APP_SECRET not configured')
+    console.error('[DIAG] WHATSAPP_APP_SECRET missing!')
     return NextResponse.json({ error: 'Server misconfigured' }, { status: 500 })
   }
 
-  if (!verifyWebhookSignature(rawBody, signature, appSecret)) {
+  const signatureValid = verifyWebhookSignature(rawBody, signature, appSecret)
+  console.log('[DIAG] signature valid:', signatureValid)
+  if (!signatureValid) {
     return new NextResponse('Invalid signature', { status: 403 })
   }
 
