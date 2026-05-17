@@ -9,7 +9,8 @@ import type { Database } from '@/types/database'
  * повертає повідомлення поточного tenant на основі Clerk org_id.
  */
 export async function GET() {
-  const { orgId } = await auth()
+  const { orgId, userId } = await auth()
+  console.log('[API Inbox] auth check — userId:', userId, 'orgId:', orgId)
 
   if (!orgId) {
     return NextResponse.json({ error: 'Unauthorized: no orgId' }, { status: 401 })

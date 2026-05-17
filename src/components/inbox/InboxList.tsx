@@ -109,7 +109,7 @@ export function InboxList({ onSelect, selectedClientId }: InboxListProps) {
     setIsLoading(true)
     setFetchError(null)
     try {
-      const res = await fetch('/api/inbox/messages')
+      const res = await fetch('/api/inbox/messages', { cache: 'no-store' })
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}`)
       }
