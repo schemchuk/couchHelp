@@ -140,6 +140,7 @@ async function handleWebhook(rawBody: string): Promise<void> {
   }
 
   const tenantId = tenant.id
+  console.log('[DIAG] tenant found:', tenantId)
   console.log('[DIAG] tenantId:', tenantId)
 
   // 4. Перевірити чи це inbound message (а не status update)
@@ -207,26 +208,46 @@ async function handleWebhook(rawBody: string): Promise<void> {
   }
 
   // 7. Зберегти повідомлення (з дедуплікацією через ON CONFLICT DO NOTHING)
+  console.log('[DIAG] before message insert')
   console.log('[DIAG] saving message, wamid:', wamid, '| client_id:', clientId)
-  const { data: savedMessages, error: msgError } = await supabase
-    .from('messages')
-    .upsert(
-      {
-        tenant_id: tenantId,
-        client_id: clientId,
-        wamid: wamid,
-        direction: 'inbound',
-        status: 'received',
-        message_type: message.type ?? 'unknown',
-        body: message.text?.body ?? null,
-        media_id: message.image?.id ?? message.document?.id ?? message.audio?.id ?? message.video?.id ?? message.sticker?.id ?? null,
-        media_filename: message.document?.filename ?? null,
-      },
-      { onConflict: 'wamid', ignoreDuplicates: true }
-    )
-    .select('id')
+
+  let savedMessages: { id: string }[] | null = null
+  let msgError: Error | null = null
+
+  try {
+    const result = await supabase
+      .from('messages')
+      .upsert(
+        {
+          tenant_id: tenantId,
+          client_id: clientId,
+          wamid: wamid,
+          direction: 'inbound',
+          status: 'received',
+          message_type: message.type ?? 'unknown',
+          body: message.text?.body ?? null,
+          media_id: message.image?.id ?? message.document?.id ?? message.audio?.id ?? message.video?.id ?? message.sticker?.id ?? null,
+          media_filename: message.document?.filename ?? null,
+        },
+        { onConflict: 'wamid', ignoreDuplicates: true }
+      )
+      .select('id')
+
+    savedMessages = result.data
+    msgError = result.error
+  } catch (error) {
+    console.error('[DIAG] insert error:', error)
+    await logAudit(tenantId, 'webhook_received', {
+      error: 'message_insert_exception',
+      wamid,
+      client_id: clientId,
+      exception: error instanceof Error ? error.message : String(error),
+    })
+    return
+  }
 
   if (msgError) {
+    console.error('[DIAG] insert error:', msgError)
     console.error('[WhatsApp Webhook] Failed to save message:', msgError)
     await logAudit(tenantId, 'webhook_received', {
       error: 'message_save_failed',
