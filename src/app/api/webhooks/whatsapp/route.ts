@@ -78,17 +78,14 @@ export async function POST(request: NextRequest) {
   const rawBody = await request.text()
   const signature = request.headers.get('x-hub-signature-256') ?? ''
 
-  console.log('[DIAG] POST received, signature present:', !!signature, 'body length:', rawBody.length)
-
   // 1. Верифікація підпису
   const appSecret = process.env.WHATSAPP_APP_SECRET
   if (!appSecret) {
-    console.error('[DIAG] WHATSAPP_APP_SECRET missing!')
+    console.error('[WhatsApp Webhook] WHATSAPP_APP_SECRET missing!')
     return NextResponse.json({ error: 'Server misconfigured' }, { status: 500 })
   }
 
   const signatureValid = verifyWebhookSignature(rawBody, signature, appSecret)
-  console.log('[DIAG] signature valid:', signatureValid)
   if (!signatureValid) {
     return new NextResponse('Invalid signature', { status: 403 })
   }
@@ -112,7 +109,6 @@ async function handleWebhook(rawBody: string): Promise<void> {
 
   // 3. Витягти phone_number_id і знайти tenant
   const phoneNumberId = extractPhoneNumberId(payload)
-  console.log('[DIAG] phoneNumberId extracted:', phoneNumberId)
   if (!phoneNumberId) {
     console.warn('[WhatsApp Webhook] No phone_number_id found')
     return
@@ -129,7 +125,6 @@ async function handleWebhook(rawBody: string): Promise<void> {
     .eq('phone_number_id', phoneNumberId)
     .single()
 
-  console.log('[DIAG] tenant lookup — found:', !!tenant, '| error:', tenantError?.message ?? null)
   if (tenantError || !tenant) {
     console.warn('[WhatsApp Webhook] Tenant not found for phone_number_id:', phoneNumberId)
     await logAudit(null, 'webhook_received', {
@@ -140,12 +135,9 @@ async function handleWebhook(rawBody: string): Promise<void> {
   }
 
   const tenantId = tenant.id
-  console.log('[DIAG] tenant found:', tenantId)
-  console.log('[DIAG] tenantId:', tenantId)
 
   // 4. Перевірити чи це inbound message (а не status update)
   const isInbound = isInboundMessage(payload)
-  console.log('[DIAG] isInboundMessage:', isInbound)
   if (!isInbound) {
     console.log('[WhatsApp Webhook] Status update received, skipping')
     await logAudit(tenantId, 'webhook_received', {
@@ -157,7 +149,6 @@ async function handleWebhook(rawBody: string): Promise<void> {
   // 5. Витягти перше повідомлення
   const messages = extractMessages(payload)
   const message = messages[0]
-  console.log('[DIAG] messages extracted:', messages.length, '| type:', message?.type ?? null)
   if (!message) {
     console.warn('[WhatsApp Webhook] No message found in payload')
     return
@@ -166,7 +157,6 @@ async function handleWebhook(rawBody: string): Promise<void> {
   const wamid = message.id
   const senderPhone = extractSenderPhone(message)
   const senderName = extractSenderName(payload, senderPhone)
-  console.log('[DIAG] wamid:', wamid, '| senderPhone:', senderPhone, '| senderName:', senderName)
 
   // 6. Знайти або створити client
   const { data: existingClient } = await supabase
@@ -180,9 +170,7 @@ async function handleWebhook(rawBody: string): Promise<void> {
 
   if (existingClient) {
     clientId = existingClient.id
-    console.log('[DIAG] existing client found:', clientId)
   } else {
-    console.log('[DIAG] client not found, creating for phone:', senderPhone)
     const { data: newClient, error: clientError } = await supabase
       .from('clients')
       .insert({
@@ -204,50 +192,28 @@ async function handleWebhook(rawBody: string): Promise<void> {
     }
 
     clientId = newClient.id
-    console.log('[DIAG] new client created:', clientId)
   }
 
   // 7. Зберегти повідомлення (з дедуплікацією через ON CONFLICT DO NOTHING)
-  console.log('[DIAG] before message insert')
-  console.log('[DIAG] saving message, wamid:', wamid, '| client_id:', clientId)
-
-  let savedMessages: { id: string }[] | null = null
-  let msgError: Error | null = null
-
-  try {
-    const result = await supabase
-      .from('messages')
-      .upsert(
-        {
-          tenant_id: tenantId,
-          client_id: clientId,
-          wamid: wamid,
-          direction: 'inbound',
-          status: 'received',
-          message_type: message.type ?? 'unknown',
-          body: message.text?.body ?? null,
-          media_id: message.image?.id ?? message.document?.id ?? message.audio?.id ?? message.video?.id ?? message.sticker?.id ?? null,
-          media_filename: message.document?.filename ?? null,
-        },
-        { onConflict: 'wamid', ignoreDuplicates: true }
-      )
-      .select('id')
-
-    savedMessages = result.data
-    msgError = result.error
-  } catch (error) {
-    console.error('[DIAG] insert error:', error)
-    await logAudit(tenantId, 'webhook_received', {
-      error: 'message_insert_exception',
-      wamid,
-      client_id: clientId,
-      exception: error instanceof Error ? error.message : String(error),
-    })
-    return
-  }
+  const { data: savedMessages, error: msgError } = await supabase
+    .from('messages')
+    .upsert(
+      {
+        tenant_id: tenantId,
+        client_id: clientId,
+        wamid: wamid,
+        direction: 'inbound',
+        status: 'received',
+        message_type: message.type ?? 'unknown',
+        body: message.text?.body ?? null,
+        media_id: message.image?.id ?? message.document?.id ?? message.audio?.id ?? message.video?.id ?? message.sticker?.id ?? null,
+        media_filename: message.document?.filename ?? null,
+      },
+      { onConflict: 'wamid', ignoreDuplicates: true }
+    )
+    .select('id')
 
   if (msgError) {
-    console.error('[DIAG] insert error:', msgError)
     console.error('[WhatsApp Webhook] Failed to save message:', msgError)
     await logAudit(tenantId, 'webhook_received', {
       error: 'message_save_failed',
@@ -263,7 +229,6 @@ async function handleWebhook(rawBody: string): Promise<void> {
   }
 
   const savedMessage = savedMessages[0]
-  console.log('[DIAG] message saved, id:', savedMessage.id)
 
   // 8. Записати в audit_log
   await logAudit(tenantId, 'webhook_received', {
@@ -289,7 +254,6 @@ async function handleWebhook(rawBody: string): Promise<void> {
     .filter((body): body is string => body !== null)
     .reverse()
 
-  console.log('[DIAG] calling runAIPipeline, messageId:', savedMessage.id)
   await runAIPipeline({
     messageId: savedMessage.id,
     tenantId,

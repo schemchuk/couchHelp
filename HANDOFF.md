@@ -180,6 +180,22 @@ HANDOFF.md                  — цей файл
 
 ---
 
+## Перед продакшеном (чекліст)
+
+### RLS і аутентифікація інбоксу
+- [ ] В Clerk Dashboard увімкнути **Organizations**
+- [ ] Додати `org_id` в JWT template
+- [ ] В `/api/inbox/messages` замінити lookup по `userId` на lookup по `org_id`
+- [ ] Активувати RLS policy `messages_tenant_isolation` через `org_id` в JWT
+- [ ] Протестувати ізоляцію: два коучі не бачать повідомлення один одного
+
+### Інше
+- [ ] Прибрати sandbox fallback (`SELECT * FROM tenants LIMIT 1`) з API route
+- [ ] Перевірити що webhook handler не має діагностичних `[DIAG]` логів
+- [ ] Business Verification в Meta для реальних WhatsApp повідомлень
+
+---
+
 ## Важливі теми що обговорювались але ще не реалізовані
 
 **OAuth/Credential митигація для підписок:**

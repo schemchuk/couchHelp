@@ -198,6 +198,25 @@ updated_at timestamptz DEFAULT now()
 
 ---
 
+## 6.1. Аутентифікація інбоксу — два режими
+
+### Sandbox (поточний)
+- `/api/inbox/messages` перевіряє `clerk_user_id` і бере перший tenant.
+- Service role client обходить RLS.
+- Clerk Organizations не потрібні.
+
+### Продакшен (реалізувати перед виходом з бета)
+- `/api/inbox/messages` перевіряє `clerk_org_id` з JWT токена Clerk.
+- Кожен коуч бачить тільки свій tenant.
+- RLS policy `messages_tenant_isolation` активна через `org_id` в JWT.
+
+### Що потрібно зробити перед продакшеном
+1. В Clerk — увімкнути **Organizations** і додати `org_id` в JWT template.
+2. В `/api/inbox/messages` — замінити lookup по `userId` на lookup по `org_id`.
+3. Протестувати що два різних коучі не бачать повідомлення один одного.
+
+---
+
 ## 7. Row Level Security — обов'язково
 
 Кожна таблиця з `tenant_id` повинна мати RLS policy:
