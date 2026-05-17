@@ -59,5 +59,8 @@ export async function GET() {
     return NextResponse.json({ error: msgError.message }, { status: 500 })
   }
 
-  return NextResponse.json({ messages: messages ?? [] })
+  return NextResponse.json(
+    { messages: messages ?? [] },
+    { headers: { 'Content-Type': 'application/json; charset=utf-8' } }
+  )
 }

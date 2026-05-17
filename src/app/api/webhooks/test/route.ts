@@ -24,7 +24,13 @@ export async function POST(request: NextRequest) {
 
   const rawBody = await request.text()
 
-  console.log('[Test Webhook] Received test payload, body length:', rawBody.length)
+  console.log('[TEST] raw body length:', rawBody.length)
+  try {
+    const parsed = JSON.parse(rawBody)
+    console.log('[TEST] parsed payload:', JSON.stringify(parsed))
+  } catch (e) {
+    console.error('[TEST] JSON parse error:', e)
+  }
 
   // Виклик той самий обробник що і основний webhook, але без перевірки підпису
   waitUntil(
@@ -33,5 +39,5 @@ export async function POST(request: NextRequest) {
     })
   )
 
-  return NextResponse.json({ status: 'ok' })
+  return NextResponse.json({ status: 'ok' }, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
 }

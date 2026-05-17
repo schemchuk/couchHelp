@@ -27,30 +27,29 @@ export function MessageThread({ clientId, tenantId }: MessageThreadProps) {
 
   const fetchMessages = useCallback(async () => {
     setFetchError(null)
-    const { data, error } = await supabase
-      .from('messages')
-      .select('*')
-      .eq('client_id', clientId)
-      .in('direction', ['inbound', 'outbound', 'draft'])
-      .order('created_at', { ascending: true })
+    try {
+      const res = await fetch(`/api/inbox/thread?clientId=${encodeURIComponent(clientId)}`, {
+        cache: 'no-store',
+      })
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`)
+      }
+      const { messages } = (await res.json()) as { messages: MessageRow[] }
+      setMessages(messages || [])
 
-    if (error) {
-      console.error('[MessageThread] Fetch error:', error)
+      // Позначити inbound як прочитані через API
+      const unreadInbound = (messages || []).filter(
+        (m) => m.direction === 'inbound' && m.is_read === false
+      )
+      if (unreadInbound.length > 0) {
+        const ids = unreadInbound.map((m) => m.id)
+        await supabase.from('messages').update({ is_read: true }).in('id', ids)
+      }
+    } catch (err) {
+      console.error('[MessageThread] Fetch error:', err)
       setFetchError(de.inbox.error)
+    } finally {
       setIsLoading(false)
-      return
-    }
-
-    setMessages(data || [])
-    setIsLoading(false)
-
-    // Позначити inbound як прочитані
-    const unreadInbound = (data || []).filter(
-      (m) => m.direction === 'inbound' && m.is_read === false
-    )
-    if (unreadInbound.length > 0) {
-      const ids = unreadInbound.map((m) => m.id)
-      await supabase.from('messages').update({ is_read: true }).in('id', ids)
     }
   }, [clientId, supabase])
 
