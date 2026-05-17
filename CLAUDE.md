@@ -32,6 +32,14 @@
 
 ---
 
+## УВАГА ДЛЯ ПРОДАКШЕНУ
+
+- `/api/webhooks/test` — видалити або заблокувати (`ENABLE_TEST_WEBHOOK=false`).
+- Перевірка підпису (`x-hub-signature-256`) обов'язкова на `/api/webhooks/whatsapp` і `/api/webhooks/waba`.
+- Перед виходом з бета: `ENABLE_TEST_WEBHOOK` видалити з Vercel env vars.
+
+---
+
 ## RLS і аутентифікація інбоксу — два режими
 
 ### Sandbox (поточний)
