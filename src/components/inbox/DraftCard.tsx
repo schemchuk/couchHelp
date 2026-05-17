@@ -20,6 +20,45 @@ interface DraftCardProps {
   onUpdated: () => void
 }
 
+interface LanguageSelectorProps {
+  onSelect: (lang: string) => void
+  isLoading: boolean
+}
+
+const LANG_LABELS: Record<string, string> = {
+  de: 'Deutsch',
+  ru: 'Русский',
+  ua: 'Українська',
+}
+
+function LanguageSelector({ onSelect, isLoading }: LanguageSelectorProps) {
+  return (
+    <div className="space-y-2">
+      <p className="text-sm text-slate-700">
+        {de.draftCard.selectLanguage}
+      </p>
+      <div className="flex gap-2">
+        {['de', 'ru', 'ua'].map((lang) => (
+          <Button
+            key={lang}
+            size="sm"
+            variant="outline"
+            onClick={() => onSelect(lang)}
+            disabled={isLoading}
+            className="border-slate-300 hover:border-teal-500 hover:bg-teal-50 hover:text-teal-700"
+          >
+            {isLoading ? (
+              <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-teal-300 border-t-teal-600" />
+            ) : (
+              LANG_LABELS[lang]
+            )}
+          </Button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 /**
  * Картка AI-чернетки з кнопками Approve / Edit / Discard.
  */
@@ -28,6 +67,7 @@ export function DraftCard({ message, tenantId, onUpdated }: DraftCardProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [editText, setEditText] = useState(message.body || '')
   const [isLoading, setIsLoading] = useState(false)
+  const [generatingLang, setGeneratingLang] = useState<string | null>(null)
 
   const classification: ClassificationResult | null = (() => {
     try {
@@ -185,6 +225,26 @@ export function DraftCard({ message, tenantId, onUpdated }: DraftCardProps) {
             </Button>
           </div>
         </div>
+      ) : message.body === null ? (
+        <LanguageSelector
+          onSelect={async (lang) => {
+            setGeneratingLang(lang)
+            try {
+              const res = await fetch('/api/ai/generate-draft', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ messageId: message.id, language: lang }),
+              })
+              if (!res.ok) throw new Error(`HTTP ${res.status}`)
+              onUpdated()
+            } catch (err) {
+              console.error('[DraftCard] generate-draft failed:', err)
+            } finally {
+              setGeneratingLang(null)
+            }
+          }}
+          isLoading={generatingLang !== null}
+        />
       ) : (
         <>
           <p className="mb-3 whitespace-pre-wrap text-sm text-slate-800">

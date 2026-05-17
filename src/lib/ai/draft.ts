@@ -9,21 +9,30 @@ import { buildDraftSystemPrompt } from './prompts/draft'
  * @param classification — результат класифікації
  * @param clientName — ім'я клієнта (опціонально)
  * @param clientHistory — історія переписки
+ * @param forcedLanguage — примусова мова (для ручного вибору коуча)
  * @returns DraftResult або null у разі помилки
  */
 export async function generateDraft(
   incomingMessage: string,
   classification: ClassificationResult,
   clientName: string | null,
-  clientHistory: string[]
+  clientHistory: string[],
+  forcedLanguage?: SupportedLanguage
 ): Promise<DraftResult | null> {
-  const systemPrompt = buildDraftSystemPrompt(classification)
+  const draftLanguage = forcedLanguage ?? classification.language
+
+  const systemPrompt = buildDraftSystemPrompt({ ...classification, language: draftLanguage })
 
   const historyContext = clientHistory.length
     ? `Контекст попередньої переписки:\n${clientHistory.join('\n---\n')}\n\n`
     : ''
 
   const nameHint = clientName ? `Ім'я клієнта: ${clientName}. ` : ''
+
+  // Якщо мова не визначена і немає примусової — чернетку не генеруємо автоматично
+  if (!draftLanguage) {
+    return null
+  }
 
   try {
     const response = await anthropic.messages.create({
@@ -46,9 +55,7 @@ export async function generateDraft(
 
     const text = content.text.trim()
 
-    // Якщо мова не визначена — використовуємо 'de' як дефолт для чернетки,
-    // хоча prompt уже вказує запитати мову клієнта
-    const language: SupportedLanguage = classification.language ?? 'de'
+    const language: SupportedLanguage = draftLanguage
 
     const model = response.model
     const promptTokens = response.usage?.input_tokens ?? 0

@@ -146,10 +146,33 @@ export async function runAIPipeline(params: RunAIPipelineParams): Promise<void> 
     )
 
     if (!draft) {
-      await logAudit(tenantId, 'ai_processing_failed', {
+      // Мова не визначена (< 50 символів) — створюємо draft-запис без body,
+      // коуч обере мову вручну через UI
+      const { error: placeholderError } = await supabase.from('messages').insert({
+        tenant_id: tenantId,
+        client_id: clientId,
+        direction: 'draft',
+        status: 'draft',
+        message_type: 'text',
+        body: null,
+        ai_generated: true,
+        parent_message_id: messageId,
+        ai_classification: JSON.stringify(classification),
+      })
+
+      if (placeholderError) {
+        console.error('[AI Pipeline] Помилка збереження draft-placeholder:', placeholderError)
+        await logAudit(tenantId, 'ai_processing_failed', {
+          message_id: messageId,
+          stage: 'save_draft_placeholder',
+          error: placeholderError.message,
+        })
+        return
+      }
+
+      await logAudit(tenantId, 'ai_draft_language_unknown', {
         message_id: messageId,
-        stage: 'draft_generation',
-        error: 'generateDraft повернув null',
+        reason: 'language_not_detected',
       })
       return
     }

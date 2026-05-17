@@ -35,6 +35,7 @@ export const de = {
     warningLowConfidence:
       'KI ist sich unsicher – bitte manuell prüfen',
     warningUnclear: 'Nachricht unklar klassifiziert – bitte prüfen',
+    selectLanguage: 'Sprache wählen, um Entwurf zu generieren:',
     confidence: 'Konfidenz',
     language: 'Sprache',
     tone: 'Tonfall',
