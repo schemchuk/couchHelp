@@ -15,6 +15,7 @@ export function InboxLayout() {
   const router = useRouter()
 
   const handleSelect = (clientId: string) => {
+    console.log('[InboxLayout] handleSelect:', clientId)
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
       router.push(`/inbox/${clientId}`)
       return
