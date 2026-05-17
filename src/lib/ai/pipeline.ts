@@ -94,6 +94,7 @@ export async function runAIPipeline(params: RunAIPipelineParams): Promise<void> 
 
     // 2. Класифікація
     const classification = await classifyMessage(textForClassification, clientHistory)
+    console.log('[DIAG] classification result:', JSON.stringify(classification))
 
     if (!classification) {
       await logAudit(tenantId, 'ai_processing_failed', {
@@ -146,6 +147,7 @@ export async function runAIPipeline(params: RunAIPipelineParams): Promise<void> 
     )
 
     if (!draft) {
+      console.log('[DIAG] draft generation returned null')
       await logAudit(tenantId, 'ai_processing_failed', {
         message_id: messageId,
         stage: 'draft_generation',
@@ -154,20 +156,35 @@ export async function runAIPipeline(params: RunAIPipelineParams): Promise<void> 
       return
     }
 
+    console.log('[DIAG] before draft insert')
+
     // Чернетка — окремий запис з прив'язкою до вхідного повідомлення
-    const { error: draftError } = await supabase.from('messages').insert({
-      tenant_id: tenantId,
-      client_id: clientId,
-      direction: 'draft',
-      status: 'draft',
-      message_type: 'text',
-      body: draft.text,
-      ai_generated: true,
-      parent_message_id: messageId,
-      ai_classification: JSON.stringify(classification),
-    })
+    let draftError: Error | null = null
+    try {
+      const result = await supabase.from('messages').insert({
+        tenant_id: tenantId,
+        client_id: clientId,
+        direction: 'draft',
+        status: 'draft',
+        message_type: 'text',
+        body: draft.text,
+        ai_generated: true,
+        parent_message_id: messageId,
+        ai_classification: JSON.stringify(classification),
+      })
+      draftError = result.error
+    } catch (error) {
+      console.error('[DIAG] draft insert error:', error)
+      await logAudit(tenantId, 'ai_processing_failed', {
+        message_id: messageId,
+        stage: 'save_draft',
+        error: error instanceof Error ? error.message : String(error),
+      })
+      return
+    }
 
     if (draftError) {
+      console.error('[DIAG] draft insert error:', draftError)
       console.error('[AI Pipeline] Помилка збереження чернетки:', draftError)
       await logAudit(tenantId, 'ai_processing_failed', {
         message_id: messageId,
