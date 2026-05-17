@@ -108,24 +108,20 @@ export function InboxList({ onSelect, selectedClientId }: InboxListProps) {
   const fetchMessages = useCallback(async () => {
     setIsLoading(true)
     setFetchError(null)
-    const { data, error } = await supabase
-      .from('messages')
-      .select('*, clients(id, name, phone)')
-      .eq('direction', 'inbound')
-      .order('created_at', { ascending: false })
-      .limit(200)
-      .returns<RawMessage[]>()
-
-    if (error) {
-      console.error('[InboxList] Fetch error:', error)
+    try {
+      const res = await fetch('/api/inbox/messages')
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`)
+      }
+      const { messages } = (await res.json()) as { messages: RawMessage[] }
+      setItems(groupMessages(messages || []))
+    } catch (err) {
+      console.error('[InboxList] Fetch error:', err)
       setFetchError(de.inbox.error)
+    } finally {
       setIsLoading(false)
-      return
     }
-
-    setItems(groupMessages(data || []))
-    setIsLoading(false)
-  }, [supabase, groupMessages])
+  }, [groupMessages])
 
   useEffect(() => {
     fetchMessages()
