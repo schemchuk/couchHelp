@@ -51,7 +51,26 @@
 
 ### 3. Наступний крок
 
-**Блок 02** — стартуємо.
+**Блок 06** — стартуємо в новому діалозі.
 
-🤖 Модель: **Kimi** — SQL міграції, RLS policies, WhatsApp webhook парсинг.
+🤖 Модель: **Kimi** — promises schema, promises UI, deadline alerts.
 Після Kimi — **Claude Sonnet** на перевірку.
+
+---
+
+### 4. Зміни прийняті в цьому діалозі
+
+**Webhook**
+- `/api/webhooks/waba` створено окремо через UI-баг Meta Dashboard.
+- Підписка через Graph API (App Access Token), не через UI.
+
+**AI**
+- Модель `claude-haiku-4-5-20251001` замість `claude-3-haiku-20240307`.
+
+**Inbox**
+- `/api/inbox/messages` — service role API route для обходу RLS в sandbox.
+- Sandbox: lookup по `userId`, fallback на перший tenant.
+
+**Meta обмеження**
+- App unpublished — реальні WhatsApp повідомлення не доставляються.
+- Business Verification потрібна для production webhooks.
