@@ -12,8 +12,8 @@ export async function GET() {
   const { orgId, userId } = await auth()
   console.log('[API Inbox] auth check — userId:', userId, 'orgId:', orgId)
 
-  if (!orgId) {
-    return NextResponse.json({ error: 'Unauthorized: no orgId' }, { status: 401 })
+  if (!userId) {
+    return NextResponse.json({ error: 'Unauthorized: no userId' }, { status: 401 })
   }
 
   const supabase = createServiceClient<Database>(
@@ -21,15 +21,27 @@ export async function GET() {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   )
 
-  // 1. Знайти tenant за clerk_org_id
-  const { data: tenant, error: tenantError } = await supabase
-    .from('tenants')
-    .select('id')
-    .eq('clerk_org_id', orgId)
-    .single()
+  // 1. Знайти tenant: спочатку за orgId (якщо є), інакше беремо перший
+  let tenantId: string | null = null
 
-  if (tenantError || !tenant) {
-    console.error('[API Inbox] Tenant not found for orgId:', orgId)
+  if (orgId) {
+    const { data: tenant } = await supabase
+      .from('tenants')
+      .select('id')
+      .eq('clerk_org_id', orgId)
+      .single()
+    if (tenant) tenantId = tenant.id
+  }
+
+  if (!tenantId) {
+    const { data: tenant } = await supabase
+      .from('tenants')
+      .select('id')
+      .single()
+    if (tenant) tenantId = tenant.id
+  }
+
+  if (!tenantId) {
     return NextResponse.json({ error: 'Tenant not found' }, { status: 404 })
   }
 
@@ -37,7 +49,7 @@ export async function GET() {
   const { data: messages, error: msgError } = await supabase
     .from('messages')
     .select('*, clients(id, name, phone)')
-    .eq('tenant_id', tenant.id)
+    .eq('tenant_id', tenantId)
     .eq('direction', 'inbound')
     .order('created_at', { ascending: false })
     .limit(200)
