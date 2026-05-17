@@ -25,12 +25,21 @@ export async function POST(request: NextRequest) {
   const rawBody = await request.text()
 
   console.log('[TEST] raw body length:', rawBody.length)
+  console.log('[TEST] raw body first 200 chars:', rawBody.slice(0, 200))
+
+  let parsedBody: object
   try {
-    const parsed = JSON.parse(rawBody)
-    console.log('[TEST] parsed payload:', JSON.stringify(parsed))
+    parsedBody = JSON.parse(rawBody)
+    console.log('[TEST] parsed payload keys:', Object.keys(parsedBody))
   } catch (e) {
     console.error('[TEST] JSON parse error:', e)
+    return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
+
+  // Перевіримо чи є кирилиця в payload
+  const bodyStr = JSON.stringify(parsedBody)
+  const hasCyrillic = /[\u0400-\u04FF]/.test(bodyStr)
+  console.log('[TEST] has cyrillic:', hasCyrillic)
 
   // Виклик той самий обробник що і основний webhook, але без перевірки підпису
   waitUntil(

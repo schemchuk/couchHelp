@@ -67,6 +67,8 @@ export async function handleWebhook(rawBody: string): Promise<void> {
   const wamid = message.id
   const senderPhone = extractSenderPhone(message)
   const senderName = extractSenderName(payload, senderPhone)
+  const messageBody = message.text?.body ?? null
+  console.log('[Webhook Handler] body:', messageBody, '| name:', senderName)
 
   // 4. Знайти або створити client
   const { data: existingClient } = await supabase
