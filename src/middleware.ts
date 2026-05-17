@@ -9,6 +9,7 @@ const isPublicRoute = createRouteMatcher([
   '/api/keepalive(.*)',
   '/api/inbox/messages',
   '/api/inbox/thread',
+  '/api/inbox/generatedraft',
 ])
 
 export default clerkMiddleware(async (auth, request) => {

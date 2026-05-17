@@ -230,7 +230,7 @@ export function DraftCard({ message, tenantId, onUpdated }: DraftCardProps) {
           onSelect={async (lang) => {
             setGeneratingLang(lang)
             try {
-              const res = await fetch('/api/ai/generate-draft', {
+              const res = await fetch('/api/inbox/generatedraft', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ messageId: message.id, language: lang }),
